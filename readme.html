@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Pankaj Kr Yadav</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Helvetica:wght@300;400;700&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Helvetica', sans-serif;
+            background: url('https://github.com/pankajkryadav/pankajkryadav.github.io/blob/main/about.jpg?raw=true') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 50px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+        }
+
+        .container h1 {
+            font-size: 70px;
+            margin: 0;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .container p {
+            font-size: 24px;
+            margin: 15px 0 20px;
+            font-weight: 400;
+            color: #fff;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social-icons a {
+            text-decoration: none;
+            transition: transform 0.3s;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .social-icons a i {
+            font-size: 24px;
+            color: #333;
+        }
+
+        .social-icons a:hover {
+            transform: scale(1.1);
+        }
+
+        nav {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        nav a {
+            margin: 0 20px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: #0072ff;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            text-align: center;
+            padding: 15px 0;
+            box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        footer p {
+            margin: 0;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        footer p a {
+            color: #0072ff;
+            text-decoration: none;
+        }
+
+        footer p a:hover {
+            text-decoration: underline;
+        }
+
+        .blog-section {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    max-width: 1000px;
+    margin: 20px auto;
+    text-align: left;
+        }
+
+        .blog-post {
+            margin-bottom: 20px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+
+        .blog-post h2 {
+            margin: 0 0 10px;
+            font-size: 24px;
+            color: #fff;
+        }
+
+        .blog-post p {
+            margin: 0;
+            font-size: 18px;
+            color: #fff;
+        }
+
+        .write-blog {
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .write-blog textarea {
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 10px;
+            border: none;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .write-blog button {
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            background: #0072ff;
+            color: #fff;
+        }
+
+        .write-blog input[type="password"] {
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 10px;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KD4JG55" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="project.html">Projects</a>
+        <a href="readme.html">Readme</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+
+    <div class="container">
+        <h1>Readme</h1>
+        <p>Know the Changelog.</p>
+
+        <div class="blog-section" id="blog-section">
+            <!-- Blog posts will be inserted here -->
+        </div>
+
+        <div class="write-blog" id="write-blog">
+            <input type="password" id="password" placeholder="Enter password">
+            <textarea id="blog-title" placeholder="Blog Title"></textarea>
+            <textarea id="blog-content" placeholder="Write your blog here..."></textarea>
+            <button onclick="postBlog()">Post Blog</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 PankajKrYadav. All rights reserved. | Designed by <a href="https://github.com/pankajkryadav" target="_blank">Pankaj</a></p>
+    </footer>
+
+    <script>
+        const passwordField = document.getElementById('password');
+        const writeBlogSection = document.getElementById('write-blog');
+        const blogSection = document.getElementById('blog-section');
+
+        passwordField.addEventListener('input', () => {
+            if (passwordField.value === 'bdjx3itt7k') {
+                writeBlogSection.style.display = 'flex';
+                passwordField.style.display = 'none';
+            }
+        });
+
+        function postBlog() {
+            const title = document.getElementById('blog-title').value;
+            const content = document.getElementById('blog-content').value;
+
+            if (title && content) {
+                const blogPost = document.createElement('div');
+                blogPost.className = 'blog-post';
+                blogPost.innerHTML = `<h2>${title}</h2><p>${content}</p>`;
+                blogSection.appendChild(blogPost);
+
+                // Clear the input fields
+                document.getElementById('blog-title').value = '';
+                document.getElementById('blog-content').value = '';
+            } else {
+                alert('Please fill in both the title and content.');
+            }
+        }
+
+        // Example blog post
+        const exampleBlogPost = `
+            <div class="blog-post">
+                <h2> For Devlopers</h2>
+                <h2>Who is this post for?
+                    
+                    </h2>
+<p>Let’s start with some basics first, so our head is in the right place and we can understand everything
+     that’s going on much better. I will briefly be going over the basics; please read further about them 
+     if you haven’t come across them before.
+
+</p>
+
+<h3>Disclaimer
+    
+    </h3>
+
+<h3>What is a CVE?
+
+
+    </h3>
+<p> vulnerabilities are classified under “Common Vulnerabilities and Exposures” (or CVE for short). These CVEs have the format CVE-YEAR-IDNUMBER. This makes it easy for security researchers, vendors, and organizations to communicate and share information about them.</p>
+
+<h3></h3>
+<p>So, Microsoft announced a “Microsoft Outlook RCE & Credential Leak” vulnerability and assigned it a CVE of “ CVE-2024–21413”. The year assigned is 2024, as this CVE was announced on February 13th, 2024. This vulnerability was found by Haifei Li of Check Point Research. The CVSS score for this vulnerability is 9.8 (critical). This means the vulnerability should be prioritized for immediate remediation, as there is a very high chance of this vulnerability being exploited by an attacker. (Thankfully, Microsoft has released a patch!)</p>
+
+<h3>Detection</h3>
+<p>1)  A Yara rule has been written to detect a “file://” element in the moniker link. The rule is written by Florian Roth.
+
+rule EXPL_CVE_2024_21413_Microsoft_Outlook_RCE_Feb24 {
+
+   meta:
+
+      description = "Detects emails that contain signs of a method to exploit CVE-2024-21413 in Microsoft Outlook"
+
+      author = "X__Junior, Florian Roth"
+
+      reference = "https://github.com/xaitax/CVE-2024-21413-Microsoft-Outlook-Remote-Code-Execution-Vulnerability/"
+
+      date = "2024-02-17"
+
+      modified = "2024-02-19"
+
+      score = 75
+
+   strings:
+
+      $a1 = "Subject: "
+
+      $a2 = "Received: "
+
+
+
+      $xr1 = /file:\/\/\/\\\\[^"']{6,600}\.(docx|txt|pdf|xlsx|ppt
+   condition:
+
+      filesize < 1000KB
+
+      and all of ($a*)
+
+      and 1 of ($xr*)
+            </div>
+        `;
+
+        blogSection.innerHTML = exampleBlogPost;
+    </script>
+</body>
+</html>
