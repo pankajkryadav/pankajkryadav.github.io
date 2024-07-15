@@ -120,6 +120,63 @@
         footer p a:hover {
             text-decoration: underline;
         }
+
+        /* Login Form Styles */
+        .login-form {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .login-form input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: rgba(255, 255, 255, 0.1);
+            font-size: 16px;
+            color: #fff;
+        }
+
+        .login-form input::placeholder {
+            color: #fff;
+        }
+
+        .login-form button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background: grey;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .login-form button:hover {
+            background: #005bb5;
+        }
+
+        .login-message {
+            display: none;
+            margin-top: 10px;
+            color: red;
+            font-size: 16px;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .login-message.show {
+            display: block;
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -134,11 +191,11 @@
         <a href="project.html">Projects</a>
         <a href="readme.html">Readme</a>
         <a href="contact.html">Contact</a>
-        <a href="about.html">about</a>
+        <a href="about.html">About</a>
     </nav>
 
     <div class="container">
-        <h1>Hi! I Am Pankaj Kr Yadav</h1>
+        <h1>Pankaj Kr Yadav</h1>
         <p>Embark on the journey of continuous improvement and discovery.</p>
         <div class="social-icons">
             <a href="error2.html" target="_blank">
@@ -154,10 +211,36 @@
                 <i class="fab fa-linkedin"></i>
             </a>
         </div>
+
+        <!-- Login Form -->
+        <div class="login-form">
+            <h2>Login</h2>
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <button onclick="validateLogin()">Login</button>
+            <p class="login-message" id="loginMessage">Access Denied</p>
+        </div>
     </div>
 
     <footer>
         <p>&copy; 2024 Project-X. All rights reserved. | Designed by <a href="https://instagram.com/pankajkryadavofficial" target="_blank">Pankaj</a></p>
     </footer>
+
+    <script>
+        function validateLogin() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const loginMessage = document.getElementById('loginMessage');
+
+            if (username !== 'yourUsername' || password !== 'yourPassword') {
+                loginMessage.classList.add('show');
+                setTimeout(() => {
+                    loginMessage.classList.remove('show');
+                }, 3000);
+            } else {
+                alert('Access Granted');
+            }
+        }
+    </script>
 </body>
 </html>
