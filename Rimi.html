@@ -4,16 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Eklavya Techfest 2025</title>
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <!-- Vanta.js & Three.js for background animation -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r121/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.cells.min.js"></script>
   <style>
-    /* Global Styles */
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { min-height: 100%; height: auto; font-family: 'Poppins', sans-serif; overflow-x: hidden; overflow-y: auto; }
-    /* Vanta background container */
     #background { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
     body {
       color: #ffffff;
@@ -27,7 +23,6 @@
       position: relative;
       z-index: 1;
     }
-    /* Logo bar */
     .logo-bar {
       display: flex;
       justify-content: center;
@@ -90,11 +85,9 @@
   </style>
 </head>
 <body>
-  <!-- Animated background -->
   <div id="background"></div>
 
   <div class="container">
-    <!-- Tech Logos -->
     <div class="logo-bar">
       <img src="https://cdn.jsdelivr.net/npm/simple-icons@v8/icons/github.svg" alt="GitHub Logo">
       <img src="https://cdn.jsdelivr.net/npm/simple-icons@v8/icons/tensorflow.svg" alt="TensorFlow Logo">
@@ -192,8 +185,6 @@
       </div>
     </section>
   </div>
-
-  <!-- Initialize Vanta.js animation -->
   <script>
     VANTA.CELLS({
       el: "#background",
