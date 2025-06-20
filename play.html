@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Streaming Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #000000, #ff0000);
+      color: #ffffff;
+      overflow-x: hidden;
+    }
+
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      top: 0;
+      left: 0;
+    }
+
+    .main-container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+
+    .page-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    .banner {
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      border-radius: 15px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+      height: 400px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: flex-end;
+      padding: 2rem;
+      transition: background 0.5s ease;
+    }
+
+    .banner::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.2));
+      z-index: 0;
+    }
+
+    .banner-content {
+      position: relative;
+      z-index: 1;
+      color: white;
+    }
+
+    .banner h2 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .banner p {
+      font-size: 1rem;
+    }
+
+    .episode-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .episode-item {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 1rem;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: background 0.3s ease, transform 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .episode-item:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-5px);
+    }
+
+    .episode-thumbnail {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .episode-title {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .btn {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      flex: 1;
+    }
+
+    .btn-primary {
+      background-color: #1e90ff;
+      color: white;
+    }
+
+    .btn-outline-light {
+      background-color: transparent;
+      border: 1px solid #ffffff;
+      color: white;
+    }
+
+    #videoPlayer {
+      width: 100%;
+      border-radius: 10px;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="particles-js"></div>
+
+  <div class="main-container">
+    <h1 class="page-title"> 🌸 E N T E R T A I N M E N T ❤️ </h1>
+    <a class="Developer" style="color: #8e8d8d;">ᴅɪꜱᴄʟᴀɪᴍᴇʀ- ᴛʜɪꜱ ᴡᴇʙꜱɪᴛᴇ ɪꜱ ᴍᴀᴅᴇ ᴊᴜꜱᴛ ꜰᴏʀ ᴇᴅᴇᴄᴀᴛɪᴏɴᴀʟ ᴀɴᴅ ᴇxᴘᴇʀɪᴍᴇɴᴛᴀʟ ᴘᴜʀᴘᴏꜱᴇᴅ ᴏɴʟʏ ©</a>
+
+
+    <div class="banner" style="background-image: url('https://1.vikiplatform.com/c/40205c/a1055bcb0b.jpg?x=b');">
+      <div class="banner-content">
+        <h2>ıllıllı   🎀  𝒯𝒽𝑒 𝐵𝑒𝑔𝒾𝓃𝓃𝒾𝓃𝑔  🎀   ıllıllı</h2>
+        <p>❖❀～ ᴅᴇꜱɪɢɴᴇᴅ &amp; ᴅᴇᴠʟᴏᴘᴇᴅ ʙʏ ᴘᴀɴᴋᴀᴊᴋʀʏᴀᴅᴀᴠ ～❀❖ </p>
+      </div>
+    </div>
+
+    <section class="episode-list">
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://i.ytimg.com/vi/XhW3i2f54BQ/maxresdefault.jpg" alt="Episode 1">
+        <div class="episode-title">🌸 HIT - The Third Case 2025 HINDI </div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pub-2f5c14291a2845af826e5f1febe70b07.r2.dev/HIT.-.The.Third.Case.2025.Hindi.+.Telugu.Dual.Audio.UnCut.South.Movie.HEVC.720p.ESub.10Bit.x265.Vegamovies.is.mkv">Play</button>
+          <a class="btn btn-outline-light" href="https://pub-2f5c14291a2845af826e5f1febe70b07.r2.dev/HIT.-.The.Third.Case.2025.Hindi.+.Telugu.Dual.Audio.UnCut.South.Movie.HEVC.720p.ESub.10Bit.x265.Vegamovies.is.mkv" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://i.ytimg.com/vi/kcKZ6fwsa8g/maxresdefault.jpg" alt="Episode 1">
+        <div class="episode-title">🌸 Retro 2025 HINDI </div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pub-53a5d21bc4134d9ea6285409a6b0269a.r2.dev/Retro.2025.Hindi.+.Tamil.Dual.Audio.UnCut.South.Movie.HEVC.720p.ESub.x265.Vegamovies.is.mkv">Play</button>
+          <a class="btn btn-outline-light" href="https://pub-53a5d21bc4134d9ea6285409a6b0269a.r2.dev/Retro.2025.Hindi.+.Tamil.Dual.Audio.UnCut.South.Movie.HEVC.720p.ESub.x265.Vegamovies.is.mkv" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://matlabinews.com/wp-content/uploads/2024/12/image-419-1024x576.png" alt="Episode 1">
+        <div class="episode-title">🌸 Baby John 2025 HINDI </div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pub-15e0159c8b3e47ccbc6f89e6d199f2d1.r2.dev/Baby.John.2024.Hindi.AMZN.WEB-DL.720p.10Bit.x265.ESub.Vegamovies.is.mkv">Play</button>
+          <a class="btn btn-outline-light" href="https://pub-15e0159c8b3e47ccbc6f89e6d199f2d1.r2.dev/Baby.John.2024.Hindi.AMZN.WEB-DL.720p.10Bit.x265.ESub.Vegamovies.is.mkv" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://m.media-amazon.com/images/S/pv-target-images/3fbbee41317ee5fbef1cac21f4c7588b1e748b4416de73360c02db7187bc119f.jpg" alt="Episode 1">
+        <div class="episode-title">I May Love You Episode 7</div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pixeldrain.com/api/file/h4jKLNpT">Play</button>
+          <a class="btn btn-outline-light" href="https://pixeldrain.com/api/file/h4jKLNpT" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://m.media-amazon.com/images/S/pv-target-images/3fbbee41317ee5fbef1cac21f4c7588b1e748b4416de73360c02db7187bc119f.jpg" alt="Episode 2">
+        <div class="episode-title">I May Love You Episode 8</div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pixeldrain.com/api/file/pPAnGAia">Play</button>
+          <a class="btn btn-outline-light" href="https://pixeldrain.com/api/file/pPAnGAia" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://m.media-amazon.com/images/S/pv-target-images/3fbbee41317ee5fbef1cac21f4c7588b1e748b4416de73360c02db7187bc119f.jpg" alt="Episode 2">
+        <div class="episode-title">I May Love You Episode 9</div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pixeldrain.com/api/file/YgBKjNxb">Play</button>
+          <a class="btn btn-outline-light" href="https://pixeldrain.com/api/file/YgBKjNxb" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://m.media-amazon.com/images/S/pv-target-images/3fbbee41317ee5fbef1cac21f4c7588b1e748b4416de73360c02db7187bc119f.jpg" alt="Episode 2">
+        <div class="episode-title">I May Love You Episode 10</div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pixeldrain.com/api/file/HPRSivk1">Play</button>
+          <a class="btn btn-outline-light" href="https://pixeldrain.com/api/file/HPRSivk1" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://m.media-amazon.com/images/S/pv-target-images/3fbbee41317ee5fbef1cac21f4c7588b1e748b4416de73360c02db7187bc119f.jpg" alt="Episode 2">
+        <div class="episode-title">I May Love You Episode 11</div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pixeldrain.com/api/file/x19GP24N">Play</button>
+          <a class="btn btn-outline-light" href="https://pixeldrain.com/api/file/x19GP24N" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://m.media-amazon.com/images/S/pv-target-images/3fbbee41317ee5fbef1cac21f4c7588b1e748b4416de73360c02db7187bc119f.jpg" alt="Episode 2">
+        <div class="episode-title">I May Love You Episode 12</div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pixeldrain.com/api/file/gnsWNhHD">Play</button>
+          <a class="btn btn-outline-light" href="https://pixeldrain.com/api/file/gnsWNhHD" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://m.media-amazon.com/images/S/pv-target-images/3fbbee41317ee5fbef1cac21f4c7588b1e748b4416de73360c02db7187bc119f.jpg" alt="Episode 2">
+        <div class="episode-title">I May Love You Episode 13</div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pixeldrain.com/api/file/JoZ4FWtb">Play</button>
+          <a class="btn btn-outline-light" href="https://pixeldrain.com/api/file/JoZ4FWtb" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://m.media-amazon.com/images/S/pv-target-images/3fbbee41317ee5fbef1cac21f4c7588b1e748b4416de73360c02db7187bc119f.jpg" alt="Episode 2">
+        <div class="episode-title">I May Love You Episode 14</div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pixeldrain.com/api/file/heL3Jg1Q">Play</button>
+          <a class="btn btn-outline-light" href="https://pixeldrain.com/api/file/heL3Jg1Q" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://m.media-amazon.com/images/S/pv-target-images/3fbbee41317ee5fbef1cac21f4c7588b1e748b4416de73360c02db7187bc119f.jpg" alt="Episode 2">
+        <div class="episode-title">I May Love You Episode 15</div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pixeldrain.com/api/file/k9KFvUsn">Play</button>
+          <a class="btn btn-outline-light" href="https://pixeldrain.com/api/file/k9KFvUsn" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://m.media-amazon.com/images/S/pv-target-images/3fbbee41317ee5fbef1cac21f4c7588b1e748b4416de73360c02db7187bc119f.jpg" alt="Episode 2">
+        <div class="episode-title">I May Love You Episode 16</div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pixeldrain.com/api/file/DKFq49ot">Play</button>
+          <a class="btn btn-outline-light" href="https://pixeldrain.com/api/file/DKFq49ot" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://m.media-amazon.com/images/S/pv-target-images/3fbbee41317ee5fbef1cac21f4c7588b1e748b4416de73360c02db7187bc119f.jpg" alt="Episode 2">
+        <div class="episode-title">I May Love You Episode 17</div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pixeldrain.com/api/file/Q3jmnNXL">Play</button>
+          <a class="btn btn-outline-light" href="https://pixeldrain.com/api/file/Q3jmnNXL" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://m.media-amazon.com/images/S/pv-target-images/3fbbee41317ee5fbef1cac21f4c7588b1e748b4416de73360c02db7187bc119f.jpg" alt="Episode 2">
+        <div class="episode-title">I May Love You Episode 18</div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pixeldrain.com/api/file/eZe5tuZS">Play</button>
+          <a class="btn btn-outline-light" href="https://pixeldrain.com/api/file/eZe5tuZS" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://m.media-amazon.com/images/S/pv-target-images/3fbbee41317ee5fbef1cac21f4c7588b1e748b4416de73360c02db7187bc119f.jpg" alt="Episode 2">
+        <div class="episode-title">I May Love You Episode 19</div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pixeldrain.com/api/file/qvm9N4kR">Play</button>
+          <a class="btn btn-outline-light" href="https://pixeldrain.com/api/file/qvm9N4kR" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://m.media-amazon.com/images/S/pv-target-images/3fbbee41317ee5fbef1cac21f4c7588b1e748b4416de73360c02db7187bc119f.jpg" alt="Episode 2">
+        <div class="episode-title">I May Love You Episode 20</div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pixeldrain.com/api/file/ocGZkKgJ">Play</button>
+          <a class="btn btn-outline-light" href="https://pixeldrain.com/api/file/ocGZkKgJ" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://m.media-amazon.com/images/S/pv-target-images/3fbbee41317ee5fbef1cac21f4c7588b1e748b4416de73360c02db7187bc119f.jpg" alt="Episode 2">
+        <div class="episode-title">I May Love You Episode 21</div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pixeldrain.com/api/file/zmeccKbV">Play</button>
+          <a class="btn btn-outline-light" href="https://pixeldrain.com/api/file/zmeccKbV" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://m.media-amazon.com/images/S/pv-target-images/3fbbee41317ee5fbef1cac21f4c7588b1e748b4416de73360c02db7187bc119f.jpg" alt="Episode 2">
+        <div class="episode-title">I May Love You Episode 22</div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pixeldrain.com/api/file/qrZm3MdY">Play</button>
+          <a class="btn btn-outline-light" href="https://pixeldrain.com/api/file/qrZm3MdY" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://m.media-amazon.com/images/S/pv-target-images/3fbbee41317ee5fbef1cac21f4c7588b1e748b4416de73360c02db7187bc119f.jpg" alt="Episode 2">
+        <div class="episode-title">I May Love You Episode 23</div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pixeldrain.com/api/file/Mc7kpePk">Play</button>
+          <a class="btn btn-outline-light" href="https://pixeldrain.com/api/file/Mc7kpePk" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://m.media-amazon.com/images/S/pv-target-images/3fbbee41317ee5fbef1cac21f4c7588b1e748b4416de73360c02db7187bc119f.jpg" alt="Episode 2">
+        <div class="episode-title">I May Love You Episode 24</div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pixeldrain.com/api/file/oceeYSwz">Play</button>
+          <a class="btn btn-outline-light" href="https://pixeldrain.com/api/file/oceeYSwz" download>Download</a>
+        </div>
+      </div>
+    </section>
+
+    <video id="videoPlayer" controls>
+      <source id="videoSource" src="" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+  <script>
+    particlesJS.load('particles-js', 'https://cdn.jsdelivr.net/gh/VincentGarreau/particles.js@master/demo/particles.json');
+
+    document.querySelectorAll('.play-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        const video = document.getElementById('videoPlayer');
+        const source = document.getElementById('videoSource');
+        source.src = button.getAttribute('data-src');
+        video.load();
+        video.scrollIntoView({ behavior: 'smooth' });
+        video.play();
+      });
+    });
+  </script>
+</body>
+</html>
