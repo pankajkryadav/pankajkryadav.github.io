@@ -2132,7 +2132,7 @@ async function shareVideo() {
             });
         } else {
             // Fallback for browsers without Web Share API
-            const shareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(`${videoTitle} - Download with YTDLnis: ${youtubeUrl}`)}`;
+            const shareUrl = `https://youtu.be/${encodeURIComponent(`${videoTitle} - Download with YTDLnis: ${youtubeUrl}`)}`;
             window.open(shareUrl, '_blank');
         }
     } catch (error) {
