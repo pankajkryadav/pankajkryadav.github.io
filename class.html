@@ -416,7 +416,7 @@
             font-size: 1.5rem;
         }
 
-        .share-video-btn {
+        .download-video-btn {
     background: transparent;
     border: none;
     color: var(--lm-primary);
@@ -430,16 +430,15 @@
     justify-content: center;
 }
 
-.share-video-btn:hover {
+.download-video-btn:hover {
     background: rgba(108, 99, 255, 0.1);
     transform: scale(1.1);
 }
 
 /* Dark mode style */
-body.dark-mode .share-video-btn {
+body.dark-mode .download-video-btn {
     color: var(--dm-primary);
 }
-
         .download-video-btn:hover {
             background: rgba(108, 99, 255, 0.1);
             transform: scale(1.1);
@@ -1162,8 +1161,8 @@ body.dark-mode .share-video-btn {
                 
                 <div class="video-info">
     <h2 id="videoTitle">Welcome to Study</h2>
-    <button class="share-video-btn" id="shareVideoBtn" title="Share to download">
-        <i class="fas fa-share-alt"></i>
+    <button class="download-video-btn" id="downloadVideoBtn" title="Download this video">
+        <i class="fas fa-download"></i>
     </button>
 </div>
                 
@@ -1743,10 +1742,10 @@ body.dark-mode .share-video-btn {
             window.addEventListener('resize', handleResize);
             
             // Download video button
-            const shareVideoBtn = document.getElementById('shareVideoBtn');
-shareVideoBtn.addEventListener('click', function(e) {
+            const downloadVideoBtn = document.getElementById('downloadVideoBtn');
+downloadVideoBtn.addEventListener('click', function(e) {
     e.preventDefault();
-    shareVideo();
+    downloadCurrentVideo();
 });
         }
         
@@ -2111,36 +2110,34 @@ shareVideoBtn.addEventListener('click', function(e) {
             document.body.removeChild(a);
         }
         
-        // Share video using Web Share API
-async function shareVideo() {
+       // Download current video
+function downloadCurrentVideo() {
     if (!currentVideoId) return;
     
-    const youtubeUrl = `https://www.youtube.com/watch?v=${currentVideoId}`;
-    const videoTitle = document.getElementById('videoTitle').textContent;
+    // Show loading state
+    const originalIcon = downloadVideoBtn.innerHTML;
+    downloadVideoBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
     
-    try {
-        // Show loading state
-        const originalIcon = shareVideoBtn.innerHTML;
-        shareVideoBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-        
-        // Use Web Share API if available
-        if (navigator.share) {
-            await navigator.share({
-                title: videoTitle,
-                text: 'Download this video using YTDLnis',
-                url: youtubeUrl
-            });
-        } else {
-            // Fallback for browsers without Web Share API
-            const shareUrl = `https://youtu.be/${encodeURIComponent(`${videoTitle} - Download with YTDLnis: ${youtubeUrl}`)}`;
-            window.open(shareUrl, '_blank');
+    // YouTube video URL
+    const youtubeUrl = `https://www.youtube.com/watch?v=${currentVideoId}`;
+    
+    // Android intent to directly open YTDLnis
+    const intentUrl = `intent:${youtubeUrl}#Intent;package=com.deniscerri.ytdl;action=android.intent.action.VIEW;scheme=https;type=text/plain;end`;
+    
+    // Create a hidden iframe to trigger the intent
+    const iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = intentUrl;
+    document.body.appendChild(iframe);
+    
+    // Fallback to opening YouTube if intent fails
+    setTimeout(() => {
+        document.body.removeChild(iframe);
+        if (!document.hidden) {
+            window.open(youtubeUrl, '_blank');
         }
-    } catch (error) {
-        console.log('Sharing cancelled', error);
-    } finally {
-        // Restore original icon
-        shareVideoBtn.innerHTML = '<i class="fas fa-share-alt"></i>';
-    }
+        downloadVideoBtn.innerHTML = originalIcon;
+    }, 500);
 }
         
         // Initialize the app when DOM is loaded
