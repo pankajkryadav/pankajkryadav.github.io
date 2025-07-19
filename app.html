@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Premium App Download</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6C63FF;
+            --secondary: #9C27B0;
+            --accent: #FF4081;
+            --bg: #12121A;
+            --card: rgba(30, 30, 42, 0.85);
+            --text: #F0F0FF;
+            --text-light: #A0A0B0;
+            --border: #2E2E3A;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        @font-face {
+            font-family: 'Poppins';
+            font-style: normal;
+            font-weight: 400;
+            src: url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Interactive Particle Background */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #2a0a3d, #1a0a3d, #0a0a3d);
+        }
+
+        /* Main Container */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+            backdrop-filter: blur(5px);
+        }
+
+        /* App Card */
+        .app-card {
+            background: var(--card);
+            border-radius: 24px;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 480px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--shadow);
+            text-align: center;
+            margin-bottom: 2rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .app-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(108, 99, 255, 0.2);
+        }
+
+        /* App Icon */
+        .app-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(108, 99, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .app-icon::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                transparent 45%,
+                rgba(255, 255, 255, 0.2) 50%,
+                transparent 55%
+            );
+            transform: rotate(30deg);
+            animation: shine 4s infinite;
+        }
+
+        .app-icon i {
+            font-size: 3.5rem;
+            color: white;
+            z-index: 1;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(30deg); }
+            100% { transform: translateX(100%) rotate(30deg); }
+        }
+
+        /* App Info */
+        .app-info h1 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .app-info p {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+        }
+
+        .app-version {
+            display: inline-block;
+            background: rgba(108, 99, 255, 0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Download Button */
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 14px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(108, 99, 255, 0.3);
+            width: 100%;
+            margin-top: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(108, 99, 255, 0.4);
+        }
+
+        .download-btn:active {
+            transform: translateY(0);
+        }
+
+        .download-btn i {
+            margin-right: 0.8rem;
+            font-size: 1.2rem;
+        }
+
+        /* Android Badge */
+        .android-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1.5rem;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .android-badge i {
+            color: #3DDC84;
+            margin-right: 0.5rem;
+            font-size: 1.2rem;
+        }
+
+        /* Warning Message */
+        .warning-message {
+            background: rgba(255, 152, 0, 0.15);
+            border: 1px solid rgba(255, 152, 0, 0.3);
+            border-radius: 14px;
+            padding: 1.2rem;
+            margin-top: 2rem;
+            text-align: left;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .warning-message h3 {
+            color: #FF9800;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            font-size: 1rem;
+        }
+
+        .warning-message h3 i {
+            margin-right: 0.5rem;
+        }
+
+        .warning-message p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .warning-message ul {
+            padding-left: 1.2rem;
+            margin: 0.8rem 0;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Screenshots (optional) */
+        .screenshots {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+            scrollbar-width: none;
+        }
+
+        .screenshots::-webkit-scrollbar {
+            display: none;
+        }
+
+        .screenshot {
+            min-width: 200px;
+            height: 350px;
+            border-radius: 12px;
+            background: var(--border);
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+            
+            .app-card {
+                padding: 1.8rem;
+            }
+            
+            .app-icon {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .app-icon i {
+                font-size: 2.8rem;
+            }
+            
+            .app-info h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Interactive Particle Background -->
+    <div id="particles-js"></div>
+    
+    <!-- Main Content -->
+    <div class="container">
+        <div class="app-card">
+            <div class="app-icon">
+                <i class="fab fa-android"></i>
+            </div>
+            
+            <div class="app-info">
+                <h1>UGC NET KGS</h1>
+                <p>The application is made just for educational and experimental purpose only not for distribution or piracy</p>
+                <span class="app-version">v3.2.1 Premium</span>
+                
+                <button class="download-btn" id="downloadBtn">
+                    <i class="fas fa-download"></i> Download APK
+                </button>
+                
+                <div class="android-badge">
+                    <i class="fab fa-android"></i> Android 8.0+ Required
+                </div>
+            </div>
+            
+            <div class="warning-message">
+                <h3><i class="fas fa-shield-alt"></i> Play Protect Warning</h3>
+                <p>When installing this app, you might see a warning from Play Protect. This is normal for apps downloaded outside Google Play.</p>
+                <ul>
+                    <li>Scan or Tap "More info" then "Install anyway"</li>
+                    <li>After installation, the app will be marked as safe</li>
+                    <li>No special permissions required</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Optional Screenshots Section -->
+        <!-- <div class="screenshots">
+            <div class="screenshot"></div>
+            <div class="screenshot"></div>
+            <div class="screenshot"></div>
+        </div> -->
+    </div>
+
+    <!-- Particles.js for interactive background -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
+    <script>
+        // Initialize particle background
+        document.addEventListener('DOMContentLoaded', function() {
+            particlesJS('particles-js', {
+                "particles": {
+                    "number": {
+                        "value": 80,
+                        "density": {
+                            "enable": true,
+                            "value_area": 800
+                        }
+                    },
+                    "color": {
+                        "value": "#6C63FF"
+                    },
+                    "shape": {
+                        "type": "circle",
+                        "stroke": {
+                            "width": 0,
+                            "color": "#000000"
+                        },
+                        "polygon": {
+                            "nb_sides": 5
+                        }
+                    },
+                    "opacity": {
+                        "value": 0.3,
+                        "random": true,
+                        "anim": {
+                            "enable": true,
+                            "speed": 1,
+                            "opacity_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "size": {
+                        "value": 3,
+                        "random": true,
+                        "anim": {
+                            "enable": true,
+                            "speed": 2,
+                            "size_min": 0.1,
+                            "sync": false
+                        }
+                    },
+                    "line_linked": {
+                        "enable": true,
+                        "distance": 150,
+                        "color": "#6C63FF",
+                        "opacity": 0.2,
+                        "width": 1
+                    },
+                    "move": {
+                        "enable": true,
+                        "speed": 1,
+                        "direction": "none",
+                        "random": true,
+                        "straight": false,
+                        "out_mode": "out",
+                        "bounce": false,
+                        "attract": {
+                            "enable": true,
+                            "rotateX": 600,
+                            "rotateY": 1200
+                        }
+                    }
+                },
+                "interactivity": {
+                    "detect_on": "canvas",
+                    "events": {
+                        "onhover": {
+                            "enable": true,
+                            "mode": "grab"
+                        },
+                        "onclick": {
+                            "enable": true,
+                            "mode": "push"
+                        },
+                        "resize": true
+                    },
+                    "modes": {
+                        "grab": {
+                            "distance": 140,
+                            "line_linked": {
+                                "opacity": 0.5
+                            }
+                        },
+                        "bubble": {
+                            "distance": 400,
+                            "size": 40,
+                            "duration": 2,
+                            "opacity": 8,
+                            "speed": 3
+                        },
+                        "repulse": {
+                            "distance": 200,
+                            "duration": 0.4
+                        },
+                        "push": {
+                            "particles_nb": 4
+                        },
+                        "remove": {
+                            "particles_nb": 2
+                        }
+                    }
+                },
+                "retina_detect": true
+            });
+            
+            // APK Download URL - REPLACE WITH YOUR ACTUAL APK URL
+            const APK_URL = "https://pixeldrain.com/api/file/ENNhQZBD";
+            
+            // Download button functionality
+            document.getElementById('downloadBtn').addEventListener('click', function() {
+                // Show loading state
+                const btn = this;
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Preparing download...';
+                
+                // Create hidden link and trigger download
+                setTimeout(() => {
+                    const link = document.createElement('a');
+                    link.href = APK_URL;
+                    link.download = 'YTDLnis_Premium.apk';
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
+                    // Restore button after 2 seconds
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                    }, 2000);
+                }, 800);
+            });
+        });
+    </script>
+</body>
+</html>
