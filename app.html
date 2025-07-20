@@ -285,7 +285,7 @@
     </style>
 </head>
 <body>
-    <!-- Interactive Particle Background -->
+   
     <div id="particles-js"></div>
     
     <!-- Main Content -->
@@ -328,11 +328,11 @@
         </div> -->
     </div>
 
-    <!-- Particles.js for interactive background -->
+   
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     
     <script>
-        // Initialize particle background
+       
         document.addEventListener('DOMContentLoaded', function() {
             particlesJS('particles-js', {
                 "particles": {
@@ -440,17 +440,17 @@
                 "retina_detect": true
             });
             
-            // APK Download URL - REPLACE WITH YOUR ACTUAL APK URL
-            const APK_URL = "https://pixeldrain.com/api/file/n8fbNPKW";
+           
+            const APK_URL = "https://pixeldrain.com/api/file/FzejAkyK";
             
-            // Download button functionality
+           
             document.getElementById('downloadBtn').addEventListener('click', function() {
                 // Show loading state
                 const btn = this;
                 const originalText = btn.innerHTML;
                 btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Preparing download...';
                 
-                // Create hidden link and trigger download
+                
                 setTimeout(() => {
                     const link = document.createElement('a');
                     link.href = APK_URL;
@@ -459,7 +459,7 @@
                     link.click();
                     document.body.removeChild(link);
                     
-                    // Restore button after 2 seconds
+                   
                     setTimeout(() => {
                         btn.innerHTML = originalText;
                     }, 2000);
