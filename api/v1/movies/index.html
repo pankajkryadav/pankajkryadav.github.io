@@ -1,1 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Streaming Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #000000, #000000);
+      color: #ffffff;
+      overflow-x: hidden;
+    }
+
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      top: 0;
+      left: 0;
+    }
+
+    .main-container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+
+    .page-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 2rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+    }
+
+    .banner {
+      position: relative;
+      background-size: cover;
+      background-position: center;
+      border-radius: 15px;
+      overflow: hidden;
+      margin-bottom: 2rem;
+      height: 400px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: flex-end;
+      padding: 2rem;
+      transition: background 0.5s ease;
+    }
+
+    .banner::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.2));
+      z-index: 0;
+    }
+
+    .banner-content {
+      position: relative;
+      z-index: 1;
+      color: white;
+    }
+
+    .banner h2 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .banner p {
+      font-size: 1rem;
+    }
+
+    .episode-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .episode-item {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 1rem;
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: background 0.3s ease, transform 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .episode-item:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-5px);
+    }
+
+    .episode-thumbnail {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 1rem;
+    }
+
+    .episode-title {
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .btn {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      flex: 1;
+    }
+
+    .btn-primary {
+      background-color: #1e90ff;
+      color: white;
+    }
+
+    .btn-outline-light {
+      background-color: transparent;
+      border: 1px solid #ffffff;
+      color: white;
+    }
+
+    #videoPlayer {
+      width: 100%;
+      border-radius: 10px;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+  <div id="particles-js"></div>
+
+  <div class="main-container">
+    <h1 class="page-title"> 🌸 Time Waste 🌸 </h1>
+    <a class="Developer" style="color: #8e8d8d;">ᴅɪꜱᴄʟᴀɪᴍᴇʀ- ᴛʜɪꜱ ᴡᴇʙꜱɪᴛᴇ ɪꜱ ᴍᴀᴅᴇ ᴊᴜꜱᴛ ꜰᴏʀ ᴇᴅᴇᴄᴀᴛɪᴏɴᴀʟ ᴀɴᴅ ᴇxᴘᴇʀɪᴍᴇɴᴛᴀʟ ᴘᴜʀᴘᴏꜱᴇᴅ ᴏɴʟʏ ©</a>
+
+
+    <div class="banner" style="background-image: url('https://wallpapers.com/images/hd/tanjiro-and-nezuko-blue-background-crow-gmt7kpyi81wwl3x0.jpg');">
+      <div class="banner-content">
+        <h2>ıllıllı   🎀 ℙ𝕣𝕚𝕧𝕒𝕥𝕖 𝕤𝕡𝕒𝕔𝕖 ℕ𝕠𝕥 𝕗𝕠𝕣 ℙ𝕦𝕓𝕝𝕚𝕔 𝕌𝕤𝕖 🎀   ıllıllı</h2>
+        <p>❖ ᴅᴇꜱɪɢɴᴇᴅ &amp; ᴅᴇᴠʟᴏᴘᴇᴅ ʙʏ ᴘᴀɴᴋᴀᴊᴋʀʏᴀᴅᴀᴠ ❖ </p>
+      </div>
+    </div>
+    <section class="episode-list">
+
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://www.yourdecoration.com/cdn/shop/files/abystyle-demon-slayer-tanjiro-nezuko-poster-91-5x61cm_6c25b75b-416f-4c5e-9227-8f1b94c53b01_500x.jpg?v=1721810634" alt="Episode 1">
+        <div class="episode-title">🌸 Demon Slayers Episode 1 HINDI </div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pixeldrain.com/api/file/E59MBLjc">Play</button>
+          <a class="btn btn-outline-light" href="https://pixeldrain.com/api/file/E59MBLjc" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://www.yourdecoration.com/cdn/shop/files/abystyle-demon-slayer-tanjiro-nezuko-poster-91-5x61cm_6c25b75b-416f-4c5e-9227-8f1b94c53b01_500x.jpg?v=1721810634" alt="Episode 1">
+        <div class="episode-title">🌸 Demon Slayers Episode 2 HINDI </div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pixeldrain.com/api/file/crhP5fUw">Play</button>
+          <a class="btn btn-outline-light" href="https://pixeldrain.com/api/file/crhP5fUw" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://www.yourdecoration.com/cdn/shop/files/abystyle-demon-slayer-tanjiro-nezuko-poster-91-5x61cm_6c25b75b-416f-4c5e-9227-8f1b94c53b01_500x.jpg?v=1721810634" alt="Episode 1">
+        <div class="episode-title">🌸 Demon Slayers Episode 3 HINDI </div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pixeldrain.com/api/file/qfViwPPx">Play</button>
+          <a class="btn btn-outline-light" href="https://pixeldrain.com/api/file/qfViwPPx" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://www.yourdecoration.com/cdn/shop/files/abystyle-demon-slayer-tanjiro-nezuko-poster-91-5x61cm_6c25b75b-416f-4c5e-9227-8f1b94c53b01_500x.jpg?v=1721810634" alt="Episode 1">
+        <div class="episode-title">🌸 Demon Slayers Episode 4 HINDI </div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pixeldrain.com/api/file/PvmuTxdP">Play</button>
+          <a class="btn btn-outline-light" href="https://pixeldrain.com/api/file/PvmuTxdP" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://www.yourdecoration.com/cdn/shop/files/abystyle-demon-slayer-tanjiro-nezuko-poster-91-5x61cm_6c25b75b-416f-4c5e-9227-8f1b94c53b01_500x.jpg?v=1721810634" alt="Episode 1">
+        <div class="episode-title">🌸 Demon Slayers Episode 5 HINDI </div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pixeldrain.com/api/file/Ny5S6ZC7">Play</button>
+          <a class="btn btn-outline-light" href="https://pixeldrain.com/api/file/Ny5S6ZC7" download>Download</a>
+        </div>
+      </div>
+
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://files.prokerala.com/movies/pics/800/new-retro-look-of-keerthy-suresh-in-movie-87360.jpg" alt="Episode 1">
+        <div class="episode-title">🌸 Mahanati 2025 HINDI </div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pub-b3324ab27e594f0797d9f1a1e6c16c0c.r2.dev/Mahanati.2018.720p.HEVC.UNCUT.HDRip.Dual.x265.ESub.Vegamovies.NL.mkv">Play</button>
+          <a class="btn btn-outline-light" href="https://pub-b3324ab27e594f0797d9f1a1e6c16c0c.r2.dev/Mahanati.2018.720p.HEVC.UNCUT.HDRip.Dual.x265.ESub.Vegamovies.NL.mkv" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://i.ytimg.com/vi/XhW3i2f54BQ/maxresdefault.jpg" alt="Episode 1">
+        <div class="episode-title">🌸 HIT - The Third Case 2025 HINDI </div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pub-2f5c14291a2845af826e5f1febe70b07.r2.dev/HIT.-.The.Third.Case.2025.Hindi.+.Telugu.Dual.Audio.UnCut.South.Movie.HEVC.720p.ESub.10Bit.x265.Vegamovies.is.mkv">Play</button>
+          <a class="btn btn-outline-light" href="https://pub-2f5c14291a2845af826e5f1febe70b07.r2.dev/HIT.-.The.Third.Case.2025.Hindi.+.Telugu.Dual.Audio.UnCut.South.Movie.HEVC.720p.ESub.10Bit.x265.Vegamovies.is.mkv" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://i.ytimg.com/vi/kcKZ6fwsa8g/maxresdefault.jpg" alt="Episode 1">
+        <div class="episode-title">🌸 Retro 2025 HINDI </div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pub-53a5d21bc4134d9ea6285409a6b0269a.r2.dev/Retro.2025.Hindi.+.Tamil.Dual.Audio.UnCut.South.Movie.HEVC.720p.ESub.x265.Vegamovies.is.mkv">Play</button>
+          <a class="btn btn-outline-light" href="https://pub-53a5d21bc4134d9ea6285409a6b0269a.r2.dev/Retro.2025.Hindi.+.Tamil.Dual.Audio.UnCut.South.Movie.HEVC.720p.ESub.x265.Vegamovies.is.mkv" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://matlabinews.com/wp-content/uploads/2024/12/image-419-1024x576.png" alt="Episode 1">
+        <div class="episode-title">🌸 Baby John 2025 HINDI </div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pub-15e0159c8b3e47ccbc6f89e6d199f2d1.r2.dev/Baby.John.2024.Hindi.AMZN.WEB-DL.720p.10Bit.x265.ESub.Vegamovies.is.mkv">Play</button>
+          <a class="btn btn-outline-light" href="https://pub-15e0159c8b3e47ccbc6f89e6d199f2d1.r2.dev/Baby.John.2024.Hindi.AMZN.WEB-DL.720p.10Bit.x265.ESub.Vegamovies.is.mkv" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://statico.soapcentral.com/editor/2025/05/b5166-17481320268312.jpg" alt="Episode 1">
+        <div class="episode-title">Good Boy Episode 1</div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pub-9112ded3cd324795805af999063a032e.r2.dev/GOOD.BOY.S01E01.720p.10bit.HIN-KOR.x265.ESub-Vegamovies.is.mkv">Play</button>
+          <a class="btn btn-outline-light" href="https://pub-9112ded3cd324795805af999063a032e.r2.dev/GOOD.BOY.S01E01.720p.10bit.HIN-KOR.x265.ESub-Vegamovies.is.mkv" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://statico.soapcentral.com/editor/2025/05/b5166-17481320268312.jpg" alt="Episode 2">
+        <div class="episode-title">Good Boy Episode 2</div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pub-bd40324976bf4d719f3d020c350f3d0c.r2.dev/GOOD.BOY.S01E02.720p.HIN-KOR.x265.ESub-Vegamovies.is.mkv">Play</button>
+          <a class="btn btn-outline-light" href="https://pub-bd40324976bf4d719f3d020c350f3d0c.r2.dev/GOOD.BOY.S01E02.720p.HIN-KOR.x265.ESub-Vegamovies.is.mkv" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://statico.soapcentral.com/editor/2025/05/b5166-17481320268312.jpg" alt="Episode 2">
+        <div class="episode-title">Good Boy Episode 3</div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pub-10777d4da0d44d64ab757f818a74c1c3.r2.dev/GOOD.BOY.S01E03.720p.HIN-KOR.x265.ESub-Vegamovies.is.mkv">Play</button>
+          <a class="btn btn-outline-light" href="https://pub-10777d4da0d44d64ab757f818a74c1c3.r2.dev/GOOD.BOY.S01E03.720p.HIN-KOR.x265.ESub-Vegamovies.is.mkv" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://statico.soapcentral.com/editor/2025/05/b5166-17481320268312.jpg" alt="Episode 2">
+        <div class="episode-title">Good Boy Episode 4</div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pub-1d087a5bd496427690d706d4231e8e7f.r2.dev/GOOD.BOY.S01E04.720p.HIN-KOR.x265.ESub-Vegamovies.is.mkv">Play</button>
+          <a class="btn btn-outline-light" href="https://pub-1d087a5bd496427690d706d4231e8e7f.r2.dev/GOOD.BOY.S01E04.720p.HIN-KOR.x265.ESub-Vegamovies.is.mkv" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://statico.soapcentral.com/editor/2025/05/b5166-17481320268312.jpg" alt="Episode 2">
+        <div class="episode-title">Good Boy Episode 5</div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pub-acdcfa857f364318a653db43b90e0bef.r2.dev/GOOD.BOY.S01E05.720p.HIN-KOR.x265.ESub-Vegamovies.is.mkv">Play</button>
+          <a class="btn btn-outline-light" href="https://pub-acdcfa857f364318a653db43b90e0bef.r2.dev/GOOD.BOY.S01E05.720p.HIN-KOR.x265.ESub-Vegamovies.is.mkv" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://statico.soapcentral.com/editor/2025/05/b5166-17481320268312.jpg" alt="Episode 2">
+        <div class="episode-title">Good Boy Episode 6</div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pub-0fa54c30c64542cca3e9e79d767cfa4a.r2.dev/GOOD.BOY.S01E06.720p.HIN-KOR.x265.ESub-Vegamovies.is.mkv">Play</button>
+          <a class="btn btn-outline-light" href="https://pub-0fa54c30c64542cca3e9e79d767cfa4a.r2.dev/GOOD.BOY.S01E06.720p.HIN-KOR.x265.ESub-Vegamovies.is.mkv" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://statico.soapcentral.com/editor/2025/05/b5166-17481320268312.jpg" alt="Episode 2">
+        <div class="episode-title">Good Boy Episode 7</div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pub-ffbb9175ad54440dbf6c4fcbdc28dea9.r2.dev/GOOD.BOY.S01E07.720p.HIN-KOR.x265.ESub-Vegamovies.is.mkv">Play</button>
+          <a class="btn btn-outline-light" href="https://pub-ffbb9175ad54440dbf6c4fcbdc28dea9.r2.dev/GOOD.BOY.S01E07.720p.HIN-KOR.x265.ESub-Vegamovies.is.mkv" download>Download</a>
+        </div>
+      </div>
+      <div class="episode-item">
+        <img class="episode-thumbnail" src="https://statico.soapcentral.com/editor/2025/05/b5166-17481320268312.jpg" alt="Episode 2">
+        <div class="episode-title">Good Boy Episode 8</div>
+        <div class="btn-group">
+          <button class="btn btn-primary play-btn" data-src="https://pub-0bd7dab974c34a0aa79c2915bd4b66a1.r2.dev/GOOD.BOY.S01E08.720p.HIN-KOR.x265.ESub-Vegamovies.is.mkv">Play</button>
+          <a class="btn btn-outline-light" href="https://pub-0bd7dab974c34a0aa79c2915bd4b66a1.r2.dev/GOOD.BOY.S01E08.720p.HIN-KOR.x265.ESub-Vegamovies.is.mkv" download>Download</a>
+        </div>
+      </div>
+      
+    </section>
+
+    <video id="videoPlayer" controls>
+      <source id="videoSource" src="" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/particles.js"></script>
+  <script>
+    particlesJS.load('particles-js', 'https://cdn.jsdelivr.net/gh/VincentGarreau/particles.js@master/demo/particles.json');
+
+    document.querySelectorAll('.play-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        const video = document.getElementById('videoPlayer');
+        const source = document.getElementById('videoSource');
+        source.src = button.getAttribute('data-src');
+        video.load();
+        video.scrollIntoView({ behavior: 'smooth' });
+        video.play();
+      });
+    });
+  </script>
+</body>
+</html>
 
