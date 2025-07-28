@@ -1,1 +1,1704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <title>PANKAJ KR YADAV</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Define custom colors and variables for Netflix-inspired theme and effects */
+        :root {
+            --netflix-bg: #141414; /* Deep dark background */
+            --netflix-card-bg: rgba(24, 24, 24, 0.9); /* Slightly lighter, semi-transparent */
+            --netflix-text: #e5e5e5; /* Light grey text */
+            --netflix-text-light: #a0a0a0; /* Lighter grey text */
+            --netflix-red: #e50914; /* Netflix red accent */
+            --netflix-red-hover: #f40612; /* Slightly brighter red for hover */
+            --netflix-border: rgba(40, 40, 40, 0.7);
+            --netflix-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Base body styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+            transition: background-color 0.4s ease, color 0.4s ease;
+            background-color: var(--netflix-bg);
+            color: var(--netflix-text);
+        }
+
+        /* Custom font import for 'Inter' */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        /* Floating Particles for background effect */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05); /* Subtler particles for dark theme */
+            filter: blur(20px); /* Less blur */
+            animation: floatParticle linear infinite;
+        }
+
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Moving Gradient Border Effect */
+        .gradient-border-wrap {
+            position: relative;
+            overflow: hidden; /* Crucial for containing the pseudo-element */
+            border-radius: 8px; /* Match the inner element's border-radius */
+            padding: 2px; /* This creates the "border" space */
+            background: transparent; /* Default background */
+        }
+
+        .gradient-border-wrap::before {
+            content: '';
+            position: absolute;
+            top: -20%; /* Start slightly above */
+            left: -20%; /* Start slightly left */
+            width: 140%; /* Cover the entire area */
+            height: 140%; /* Cover the entire area */
+            background: conic-gradient(
+                from 0deg at 50% 50%,
+                #ff0000, /* Red */
+                #ff7f00, /* Orange */
+                #ffff00, /* Yellow */
+                #00ff00, /* Green */
+                #0000ff, /* Blue */
+                #4b0082, /* Indigo */
+                #9400d3, /* Violet */
+                #ff0000 /* Red (to complete the loop) */
+            );
+            background-size: 200% 200%; /* Make the gradient larger than the element for smooth movement */
+            animation: rotateGradient 4s linear infinite;
+            z-index: -1; /* Behind the content */
+            border-radius: inherit; /* Inherit border-radius from parent */
+        }
+
+        @keyframes rotateGradient {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 100% 100%; }
+        }
+
+        /* Ensure the inner content is positioned correctly relative to the pseudo-element */
+        .gradient-border-content {
+            position: relative;
+            z-index: 1; /* Above the pseudo-element */
+            height: 100%;
+            width: 100%;
+            border-radius: inherit;
+        }
+
+        /* Shake animation for login error */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-10px); }
+            20%, 40%, 60%, 80% { transform: translateX(10px); }
+        }
+        .shake {
+            animation: shake 0.5s;
+        }
+
+        /* Video thumbnail overlay for play icon */
+        .video-thumbnail-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .video-card:hover .video-thumbnail-overlay {
+            opacity: 1;
+        }
+        .video-thumbnail-overlay i {
+            font-size: 2.5rem;
+            color: white;
+            text-shadow: 0 0 10px var(--netflix-red);
+        }
+
+        /* Custom message box styles */
+        .message-box {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            animation: slideInFromTop 0.5s forwards;
+        }
+
+        .message-box.success {
+            background-color: rgba(40, 167, 69, 0.8);
+            color: white;
+            border: 1px solid rgba(40, 167, 69, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        .message-box.error {
+            background-color: rgba(220, 53, 69, 0.8);
+            color: white;
+            border: 1px solid rgba(220, 53, 69, 0.5);
+            backdrop-filter: blur(5px);
+        }
+        .message-box.info {
+            background-color: rgba(23, 162, 184, 0.8);
+            color: white;
+            border: 1px solid rgba(23, 162, 184, 0.5);
+            backdrop-filter: blur(5px);
+        }
+
+        @keyframes slideInFromTop {
+            from { opacity: 0; transform: translateX(-50%) translateY(-100%); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        /* Main layout grid for desktop (Netflix-like) */
+        .main-content-grid {
+            display: grid;
+            grid-template-columns: 1fr; /* Default to single column for mobile */
+            gap: 1.5rem;
+            padding: 0; /* No padding on mobile portrait, handled by video-player-wrapper and other sections */
+        }
+        @media (min-width: 1024px) { /* On large screens, use 2-column layout */
+            .main-content-grid {
+                grid-template-columns: 3fr 1fr; /* Main video (3 parts) and sidebar (1 part) */
+                padding: 0 1.5rem; /* Padding on desktop for overall content */
+            }
+        }
+
+        /* Video player container for minimal margin on mobile */
+        .video-player-wrapper {
+            width: 100%;
+            padding: 0; /* No padding on mobile portrait */
+            margin: 0; /* No margin on mobile portrait */
+        }
+        @media (min-width: 640px) { /* Small screens (landscape mobile, small tablets) */
+            .video-player-wrapper {
+                padding: 0.5rem; /* Minimal padding */
+            }
+        }
+        @media (min-width: 1024px) { /* Desktop */
+            .video-player-wrapper {
+                padding: 1rem; /* Standard padding */
+            }
+        }
+
+        /* Mobile tabs styling */
+        .mobile-tabs-container {
+            display: none; /* Hidden by default on desktop */
+        }
+        @media (max-width: 1023px) { /* Visible on mobile/tablet */
+            .mobile-tabs-container {
+                display: flex;
+                background-color: #282828; /* Darker background for tabs */
+                border-bottom: 1px solid #3a3a3a;
+                padding: 0.5rem;
+                margin: 0 1rem 1rem 1rem; /* Consistent horizontal margin with video player */
+                border-radius: 8px;
+            }
+            .mobile-tabs-container button {
+                flex: 1;
+                padding: 0.75rem 0.5rem;
+                border-radius: 6px;
+                color: #aaa;
+                font-weight: 500;
+                transition: all 0.2s ease;
+            }
+            .mobile-tabs-container button.active {
+                background-color: #404040;
+                color: #fff;
+            }
+        }
+
+        /* Content Sections */
+        .content-section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--netflix-text);
+            margin-bottom: 1rem;
+            padding: 0 1rem; /* Horizontal padding for mobile */
+        }
+        @media (min-width: 1024px) {
+            .content-section-title {
+                padding: 0;
+            }
+        }
+
+        /* Carousel for desktop, List for mobile */
+        .content-list-or-carousel {
+            display: flex; /* Default to carousel behavior */
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 1rem;
+            gap: 1rem;
+            padding: 0 1rem; /* Horizontal padding for mobile */
+        }
+        @media (min-width: 1024px) {
+            .content-list-or-carousel {
+                display: grid; /* Grid for desktop */
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+                padding: 0;
+            }
+        }
+        @media (max-width: 1023px) { /* Mobile specific list layout */
+            .content-list-or-carousel {
+                display: flex;
+                flex-direction: column; /* Stack vertically */
+                overflow-x: hidden; /* No horizontal scroll */
+                padding: 0 1rem; /* Maintain horizontal padding */
+                gap: 0.75rem; /* Closer spacing for list items */
+            }
+        }
+
+        .content-card {
+            flex: 0 0 auto; /* Prevent shrinking in carousel */
+            width: 140px; /* Adjusted fixed width for mobile thumbnails in carousel */
+            scroll-snap-align: start;
+            border-radius: 8px;
+            overflow: hidden;
+            background-color: #282828; /* Card background */
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            cursor: pointer;
+        }
+        @media (min-width: 1024px) {
+            .content-card {
+                width: auto; /* Let grid handle width on desktop */
+                max-width: 200px; /* Max width for desktop grid items */
+            }
+        }
+        @media (max-width: 1023px) { /* Mobile list item styling */
+            .content-card {
+                width: 100%; /* Take full width in list */
+                display: flex; /* Arrange thumbnail and text horizontally */
+                align-items: center;
+                gap: 1rem;
+                padding: 0.5rem; /* Padding for list item */
+                box-shadow: none; /* Remove individual card shadow in list */
+            }
+            .content-card:hover {
+                transform: none; /* No scale effect in list */
+                box-shadow: none;
+            }
+        }
+
+        .card-thumbnail {
+            width: 100%;
+            height: 80px; /* Adjusted fixed height for thumbnails */
+            object-fit: cover;
+        }
+        @media (min-width: 1024px) {
+             .card-thumbnail {
+                height: 100px; /* Larger thumbnails on desktop */
+            }
+        }
+        @media (max-width: 1023px) { /* Mobile thumbnail size in list */
+            .card-thumbnail {
+                width: 120px; /* Fixed width for mobile list thumbnail */
+                height: 68px; /* Fixed height for mobile list thumbnail (16:9 of 120px) */
+                flex-shrink: 0; /* Prevent shrinking */
+            }
+        }
+
+        .card-info {
+            padding: 0.75rem;
+        }
+        @media (max-width: 1023px) { /* Mobile list info styling */
+            .card-info {
+                padding: 0; /* Remove padding, handled by parent */
+                flex-grow: 1; /* Take remaining space */
+            }
+        }
+
+        .card-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--netflix-text);
+            line-height: 1.3;
+            margin-bottom: 0.25rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        @media (max-width: 1023px) { /* Mobile list title */
+            .card-title {
+                font-size: 0.95rem; /* Slightly larger for readability in list */
+                -webkit-line-clamp: 1; /* Single line for list */
+            }
+        }
+
+        .card-duration {
+            font-size: 0.75rem;
+            color: var(--netflix-text-light);
+        }
+        @media (max-width: 1023px) { /* Mobile list duration */
+            .card-duration {
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Login page specific styles from webpage.html, adapted for Netflix theme */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 1.5rem;
+            backdrop-filter: blur(5px);
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7); /* Darker overlay for login */
+        }
+
+        .login-box {
+            background: var(--netflix-card-bg); /* Use Netflix card background */
+            padding: 2rem;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 480px;
+            border: 1px solid var(--netflix-border);
+            text-align: center;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            margin: 1rem;
+        }
+
+        .login-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                transparent 45%,
+                rgba(255, 255, 255, 0.1) 50%, /* Subtler shine */
+                transparent 55%
+            );
+            transform: rotate(30deg);
+            animation: shine 4s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(30deg); }
+            100% { transform: translateX(100%) rotate(30deg); }
+        }
+
+        .login-box:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            margin-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--netflix-red); /* Netflix red for logo icon */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 2.5rem;
+            box-shadow: 0 10px 20px rgba(229, 9, 20, 0.3); /* Netflix red shadow */
+        }
+
+        .logo-text {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: white;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .login-box h1 {
+            margin-bottom: 2rem;
+            font-weight: 600;
+            color: var(--netflix-text);
+            font-size: 1.6rem;
+        }
+
+        .password-container {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .password-container input {
+            width: 100%;
+            padding: 18px 24px;
+            border: 2px solid var(--netflix-border);
+            border-radius: 14px;
+            background: #333; /* Darker input background */
+            color: var(--netflix-text);
+            font-size: 1rem;
+            font-weight: 500;
+            outline: none;
+            transition: all 0.3s;
+            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.05);
+            padding-right: 50px;
+        }
+
+        .password-container input:focus {
+            border-color: var(--netflix-red);
+            box-shadow: 0 0 0 4px rgba(229, 9, 20, 0.3);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--netflix-text-light);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .toggle-password:hover {
+            color: var(--netflix-red);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 18px;
+            border: none;
+            border-radius: 14px;
+            background: var(--netflix-red); /* Netflix red button */
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 20px rgba(229, 9, 20, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-3px);
+            background-color: var(--netflix-red-hover);
+            box-shadow: 0 15px 30px rgba(229, 9, 20, 0.4);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .login-btn::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                transparent 45%,
+                rgba(255, 255, 255, 0.1) 50%, /* Subtler shine */
+                transparent 55%
+            );
+            transform: rotate(30deg);
+            animation: shine 3s infinite;
+        }
+
+        /* Header (fixed at top) */
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.9); /* Slightly transparent black */
+            z-index: 50;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .header-logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .header-logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--netflix-red);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .header-logo-text {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--netflix-red);
+            letter-spacing: -0.5px;
+        }
+
+        .nav-link {
+            color: var(--netflix-text);
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+        .nav-link:hover {
+            color: var(--netflix-text-light);
+        }
+
+        .search-input {
+            background-color: #333;
+            border: 1px solid #555;
+            color: #fff;
+            padding: 0.5rem 0.75rem;
+            padding-left: 2.5rem;
+            border-radius: 4px;
+        }
+
+        .icon-button {
+            background: none;
+            border: none;
+            color: var(--netflix-text);
+            font-size: 1.25rem;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        .icon-button:hover {
+            color: var(--netflix-text-light);
+        }
+
+        .logout-btn {
+            background-color: var(--netflix-red);
+            color: white;
+            font-weight: 600;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background-color 0.2s ease;
+        }
+        .logout-btn:hover {
+            background-color: var(--netflix-red-hover);
+        }
+
+        /* Main Content Area (adjust for fixed header) */
+        .main-content-area {
+            padding-top: 80px; /* Space for fixed header */
+            width: 100%;
+            max-width: 1200px; /* Max width for content */
+            margin: 0 auto;
+            padding-bottom: 2rem;
+        }
+        @media (max-width: 1023px) {
+            .main-content-area {
+                padding-left: 0;
+                padding-right: 0;
+            }
+        }
+
+        /* Video Player Section */
+        .video-player-section {
+            background-color: #181818; /* Darker background for video section */
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+            margin-bottom: 1.5rem;
+        }
+
+        .video-iframe-container {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            background-color: #000;
+        }
+
+        .video-iframe-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .video-details {
+            padding: 1rem;
+        }
+
+        .video-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--netflix-text);
+            margin-bottom: 0.5rem;
+        }
+
+        .video-description {
+            font-size: 0.9rem;
+            color: var(--netflix-text-light);
+            margin-bottom: 1rem;
+        }
+
+        .share-link-button {
+            background-color: #333;
+            color: white;
+            padding: 0.75rem 1.25rem;
+            border-radius: 4px;
+            font-weight: 600;
+            transition: background-color 0.2s ease;
+        }
+        .share-link-button:hover {
+            background-color: #555;
+        }
+
+        /* Notes Section */
+        .notes-section {
+            background-color: #181818;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+            margin: 0 1rem; /* Padding for mobile */
+        }
+        @media (min-width: 1024px) {
+            .notes-section {
+                margin: 0; /* No padding on desktop */
+            }
+        }
+
+        .notes-list {
+            list-style: none;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 0.5rem; /* Space for scrollbar */
+        }
+
+        .note-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #333;
+        }
+        .note-item:last-child {
+            border-bottom: none;
+        }
+
+        .note-title-text {
+            font-size: 0.95rem;
+            color: var(--netflix-text);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .download-pdf-btn {
+            background-color: #e50914;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            transition: background-color 0.2s ease;
+        }
+        .download-pdf-btn:hover {
+            background-color: #f40612;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .fixed-header {
+                padding: 0.75rem 1rem;
+            }
+            .header-logo-text {
+                font-size: 1.1rem;
+            }
+            .logout-btn span {
+                display: none;
+            }
+            .main-content-area {
+                padding-top: 60px; /* Adjust for smaller header */
+            }
+            .video-title {
+                font-size: 1.25rem;
+            }
+            .content-section-title {
+                font-size: 1.2rem;
+            }
+            .notes-section {
+                padding: 1rem;
+            }
+            .note-title-text {
+                font-size: 0.9rem;
+            }
+            .download-pdf-btn {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="particles" id="particles"></div>
+
+    <!-- Custom Message Box Container -->
+    <div id="messageBox" class="message-box hidden"></div>
+
+    <!-- Main application container -->
+    <div id="app" class="min-h-screen flex flex-col items-center relative z-10 w-full">
+        <!-- Content will be rendered here by JavaScript -->
+    </div>
+
+    <script>
+        // --- Global State Variables ---
+        let isLoggedIn = false;
+        let passwordInput = '';
+        let loginError = '';
+        let currentPlaylistId = null;
+        let currentVideoIndex = 0;
+        let currentVideoId = null;
+        let activeMobileTab = 'upNext'; // 'upNext', 'playlists', 'notes'
+
+        // --- DOM Elements (Cached for performance) ---
+        const appContainer = document.getElementById('app');
+        const messageBoxElement = document.getElementById('messageBox');
+        const particlesContainer = document.getElementById('particles');
+
+        // --- Hardcoded Data ---
+        const CORRECT_PASSWORD = "9939053134";
+
+        const courseContent = {
+            "web-development": {
+                title: "Mishra Sir",
+                description: "Khan Global Studies - Web Development Course",
+                videos: [
+                    {
+                        title: "Lecture-01 ｜｜ Introduction By V.K Mishra Sir",
+                        videoId: "1GATX7JTBks",
+                        thumbnail: "https://i.ytimg.com/vi/1GATX7JTBks/hqdefault.jpg",
+                        duration: "58:50",
+                        notes: [
+                            {
+                                title: "Lecture-01 ｜｜ Introduction By V.K Mishra Sir",
+                                pdfUrl: "https://pixeldrain.com/api/file/v5ikmekR"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Lecture-02 ｜｜ Geography By By V.K Mishra Sir",
+                        videoId: "i6WH_ghPZ90",
+                        thumbnail: "https://i.ytimg.com/vi/i6WH_ghPZ90/hqdefault.jpg",
+                        duration: "01:07:11",
+                        notes: [
+                            {
+                                title: "Lecture-02 ｜｜ Geography By By V.K Mishra Sir",
+                                pdfUrl: "https://pixeldrain.com/api/file/TPRd5nV2"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Lecture-03 ｜｜ Geo-morphology (भू-आकृति विज्ञान) Part-02",
+                        videoId: "GwGzh-mJrRo",
+                        thumbnail: "https://i.ytimg.com/vi/GwGzh-mJrRo/hqdefault.jpg",
+                        duration: "01:10:12",
+                        notes: [
+                            {
+                                title: "Lecture-03 ｜｜ Geo-morphology (भू-आकृति विज्ञान) Part-02",
+                                pdfUrl: "https://pixeldrain.com/api/file/TQisvQkm"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Lecture-04 ｜｜ Geo-morphology (भू-आकृति विज्ञान) Part-03",
+                        videoId: "fEW9X5KCsgQ",
+                        thumbnail: "https://i.ytimg.com/vi/fEW9X5KCsgQ/hqdefault.jpg",
+                        duration: "01:16:13",
+                        notes: [
+                            {
+                                title: "Lecture-04 ｜｜ Geo-morphology (भू-आकृति विज्ञान) Part-03",
+                                pdfUrl: "https://pixeldrain.com/api/file/CeqNxivc"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Lecture-05 ｜｜ Geo-morphology (भू-आकृति विज्ञान) Part-04",
+                        videoId: "cOLxlCe1BGE",
+                        thumbnail: "https://i.ytimg.com/vi/cOLxlCe1BGE/hqdefault.jpg",
+                        duration: "01:21:14",
+                        notes: [
+                            {
+                                title: "Lecture-05 ｜｜ Geo-morphology (भू-आकृति विज्ञान) Part-04",
+                                pdfUrl: "https://pixeldrain.com/api/file/ZQHFE7SJ"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Lecture-06 ｜｜ Geo-morphology (भू-आकृति विज्ञान) Part-05",
+                        videoId: "fj76dvk2Vig",
+                        thumbnail: "https://i.ytimg.com/vi/fj76dvk2Vig/hqdefault.jpg",
+                        duration: "01:04:15",
+                        notes: [
+                            {
+                                title: "Lecture-06 ｜｜ Geo-morphology (भू-आकृति विज्ञान) Part-05",
+                                pdfUrl: "https://pixeldrain.com/api/file/1kFTA8PW"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Lecture-07 ｜｜ Geo-morphology (भू-आकृति विज्ञान) Part-06",
+                        videoId: "JskvUa7NZH4",
+                        thumbnail: "https://i.ytimg.com/vi/JskvUa7NZH4/hqdefault.jpg",
+                        duration: "01:23:16",
+                        notes: [
+                            {
+                                title: "Lecture-07 ｜｜ Geo-morphology (भू-आकृति विज्ञान) Part-06",
+                                pdfUrl: "https://pixeldrain.com/api/file/saK9AMcT"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Lecture-08 ｜｜ Geo-morphology (भू-आकृति विज्ञान) Part-07",
+                        videoId: "-_P6b1ftFHU",
+                        thumbnail: "https://i.ytimg.com/vi/-_P6b1ftFHU/hqdefault.jpg",
+                        duration: "52:50",
+                        notes: [
+                            {
+                                title: "Lecture-08 ｜｜ Geo-morphology (भू-आकृति विज्ञान) Part-07",
+                                pdfUrl: "https://pixeldrain.com/api/file/Kyvhc6Wv"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Lecture-09 ｜｜ Geo-morphology (भू-आकृति विज्ञान) Part-08",
+                        videoId: "yBo8v0joZMk",
+                        thumbnail: "https://i.ytimg.com/vi/yBo8v0joZMk/hqdefault.jpg",
+                        duration: "01:27:05",
+                        notes: [
+                            {
+                                title: "Lecture-09 ｜｜ Geo-morphology (भू-आकृति विज्ञान) Part-08",
+                                pdfUrl: "https://pixeldrain.com/api/file/uENJMi7H"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Lecture-10 ｜｜ Geo-morphology (भू-आकृति विज्ञान) Part-09",
+                        videoId: "S552xJtRhbw",
+                        thumbnail: "https://i.ytimg.com/vi/S552xJtRhbw/hqdefault.jpg",
+                        duration: "01:31:35",
+                        notes: [
+                            {
+                                title: "Lecture-10 ｜｜ Geo-morphology (भू-आकृति विज्ञान) Part-09",
+                                pdfUrl: "https://pixeldrain.com/api/file/QCH4oiej"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Lecture-11 ｜｜ Geo-morphology (भू-आकृति विज्ञान) Part-10",
+                        videoId: "RIEG2gxV0kg",
+                        thumbnail: "https://i.ytimg.com/vi/RIEG2gxV0kg/hqdefault.jpg",
+                        duration: "01:25:45",
+                        notes: [
+                            {
+                                title: "Not Uploaded By Teacher ",
+                                pdfUrl: "https://pixeldrain.com/api/file/3C6Tyz9B0000"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Lecture-12 ｜｜ Geo-morphology (भू-आकृति विज्ञान) Part-11",
+                        videoId: "wMJ_P7Qz7Ug",
+                        thumbnail: "https://i.ytimg.com/vi/wMJ_P7Qz7Ug/hqdefault.jpg",
+                        duration: "01:11:14",
+                        notes: [
+                            {
+                                title: "Lecture-12 ｜｜ Geo-morphology (भू-आकृति विज्ञान) Part-11",
+                                pdfUrl: "https://pixeldrain.com/api/file/3C6Tyz9B"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Lecture-13 ｜｜ Geo-morphology (भू-आकृति विज्ञान) Part-12",
+                        videoId: "nxpTtU0Y5GY",
+                        thumbnail: "https://i.ytimg.com/vi/nxpTtU0Y5GY/hqdefault.jpg",
+                        duration: "01:15:11",
+                        notes: [
+                            {
+                                title: "Lecture-13 ｜｜ Geo-morphology (भू-आकृति विज्ञान) Part-12",
+                                pdfUrl: "https://pixeldrain.com/api/file/RoibtwYu"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Lecture-14 ｜｜ Geo-morphology (भू-आकृति विज्ञान) Part-13",
+                        videoId: "4qHfmbSYibA",
+                        thumbnail: "https://i.ytimg.com/vi/4qHfmbSYibA/hqdefault.jpg",
+                        duration: "01:17:35",
+                        notes: [
+                            {
+                                title: "Lecture-14 ｜｜ Geo-morphology (भू-आकृति विज्ञान) Part-13",
+                                pdfUrl: "https://pixeldrain.com/api/file/bcezvY9k"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Lecture-15 ｜｜ Geo-morphology (भू-आकृति विज्ञान) Part-14",
+                        videoId: "M05Mp9FUQ7c",
+                        thumbnail: "https://i.ytimg.com/vi/M05Mp9FUQ7c/hqdefault.jpg",
+                        duration: "01:03:25",
+                        notes: [
+                            {
+                                title: "Lecture-15 ｜｜ Geo-morphology (भू-आकृति विज्ञान) Part-14",
+                                pdfUrl: "https://pixeldrain.com/api/file/PmXKeSoq"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Lecture-16 ｜｜ Geo-morphology (भू-आकृति विज्ञान) Part-15",
+                        videoId: "32SXHCfRHsQ",
+                        thumbnail: "https://i.ytimg.com/vi/32SXHCfRHsQ/hqdefault.jpg",
+                        duration: "01:23:15",
+                        notes: [
+                            {
+                                title: "Lecture-16 ｜｜ Geo-morphology (भू-आकृति विज्ञान) Part-15",
+                                pdfUrl: "https://pixeldrain.com/api/file/wcyL94Lt"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Lecture-17 ｜｜ Geo-morphology (भू-आकृति विज्ञान) Part-16",
+                        videoId: "rtluNvty8EQ",
+                        thumbnail: "https://i.ytimg.com/vi/rtluNvty8EQ/hqdefault.jpg",
+                        duration: "01:23:15",
+                        notes: [
+                            {
+                                title: "Lecture-17 ｜｜ Geo-morphology (भू-आकृति विज्ञान) Part-16",
+                                pdfUrl: "https://pixeldrain.com/api/file/EZNkJtJB"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "data-science": {
+                title: "Navneet Sir",
+                description: "Khan Global Studies - Data Science Course",
+                videos: [
+                    {
+                        title: "Lecture-01|| Higher Education, Introduction ( उच्च शिक्षा, परिचय )",
+                        videoId: "V7EUCcQHxU8",
+                        thumbnail: "https://i.ytimg.com/vi/V7EUCcQHxU8/hqdefault.jpg",
+                        duration: "58:50",
+                        notes: [
+                            {
+                                title: "Lecture-01|| Higher Education, Introduction ( उच्च शिक्षा, परिचय )",
+                                pdfUrl: "https://pixeldrain.com/api/file/v5ikmekR"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Lecture-02|| Higher Education, उच्च शिक्षा, परिचय (Part 2)",
+                        videoId: "3BRgqMsjO9M",
+                        thumbnail: "https://i.ytimg.com/vi/3BRgqMsjO9M/hqdefault.jpg",
+                        duration: "01:07:11",
+                        notes: [
+                            {
+                                title: "Lecture-02|| Higher Education, उच्च शिक्षा, परिचय (Part 2)",
+                                pdfUrl: "https://pixeldrain.com/api/file/TPRd5nV2"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Lecture-03|| Vedic Education वैदिक शिक्षा (Part 1)",
+                        videoId: "vWsuNkkAWes",
+                        thumbnail: "https://i.ytimg.com/vi/vWsuNkkAWes/hqdefault.jpg",
+                        duration: "01:10:12",
+                        notes: [
+                            {
+                                title: "Lecture-03|| Vedic Education वैदिक शिक्षा (Part 1)",
+                                pdfUrl: "https://pixeldrain.com/api/file/TQisvQkm"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Lecture-04|| Vedic Education वैदिक शिक्षा (Part 2)",
+                        videoId: "cD1N_BnT5Yg",
+                        thumbnail: "https://i.ytimg.com/vi/cD1N_BnT5Yg/hqdefault.jpg",
+                        duration: "01:16:13",
+                        notes: [
+                            {
+                                title: "Lecture-04|| Vedic Education वैदिक शिक्षा (Part 2)",
+                                pdfUrl: "https://pixeldrain.com/api/file/CeqNxivc"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Lecture-05 || Vedic Education वैदिक शिक्षा (Part 3)",
+                        videoId: "p8YvQg5x51k",
+                        thumbnail: "https://i.ytimg.com/vi/p8YvQg5x51k/hqdefault.jpg",
+                        duration: "01:21:14",
+                        notes: [
+                            {
+                                title: "Lecture-05 || Vedic Education वैदिक शिक्षा (Part 3)",
+                                pdfUrl: "https://pixeldrain.com/api/file/ZQHFE7SJ"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Lecture-06 || Vedic Education वैदिक शिक्षा (Part 4)",
+                        videoId: "65pXp-rEp9M",
+                        thumbnail: "https://i.ytimg.com/vi/65pXp-rEp9M/hqdefault.jpg",
+                        duration: "01:04:15",
+                        notes: [
+                            {
+                                title: "Lecture-06 || Vedic Education वैदिक शिक्षा (Part 4)",
+                                pdfUrl: "https://pixeldrain.com/api/file/1kFTA8PW"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Lecture-07 || Conventional Education System पारंपरिक शिक्षा प्रणाली(Part-01)",
+                        videoId: "XoCwY6_SsS4",
+                        thumbnail: "https://i.ytimg.com/vi/XoCwY6_SsS4/hqdefault.jpg",
+                        duration: "01:23:16",
+                        notes: [
+                            {
+                                title: "Lecture-07 || Conventional Education System पारंपरिक शिक्षा प्रणाली(Part-01)",
+                                pdfUrl: "https://pixeldrain.com/api/file/saK9AMcT"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Lecture-08 || Conventional Education System पारंपरिक शिक्षा प्रणाली(Part-02)",
+                        videoId: "RBM5Q--EKqY",
+                        thumbnail: "https://i.ytimg.com/vi/RBM5Q--EKqY/hqdefault.jpg",
+                        duration: "52:50",
+                        notes: [
+                            {
+                                title: "Lecture-08 || Conventional Education System पारंपरिक शिक्षा प्रणाली(Part-02)",
+                                pdfUrl: "https://pixeldrain.com/api/file/Kyvhc6Wv"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Lecture-09 ||Conventional Education System पारंपरिक शिक्षा प्रणाली(Part-03)",
+                        videoId: "eww_NKIjPjw",
+                        thumbnail: "https://i.ytimg.com/vi/eww_NKIjPjw/hqdefault.jpg",
+                        duration: "01:27:05",
+                        notes: [
+                            {
+                                title: "Lecture-09 ||Conventional Education System पारंपरिक शिक्षा प्रणाली(Part-03)",
+                                pdfUrl: "https://pixeldrain.com/api/file/uENJMi7H"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Lecture-10 || Practice Test [प्रैक्टिस टेस्ट]",
+                        videoId: "qFiwCEePs4c",
+                        thumbnail: "https://i.ytimg.com/vi/qFiwCEePs4c/hqdefault.jpg",
+                        duration: "01:31:35",
+                        notes: [
+                            {
+                                title: "Lecture-10 || Practice Test [प्रैक्टिस टेस्ट]",
+                                pdfUrl: "https://pixeldrain.com/api/file/QCH4oiej"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Lecture-11 || Higher Education by Navneet Sir( उच्च शिक्षा, परिचय )",
+                        videoId: "5zb22DU0YcQ",
+                        thumbnail: "https://i.ytimg.com/vi/5zb22DU0YcQ/hqdefault.jpg",
+                        duration: "01:25:45",
+                        notes: [
+                            {
+                                title: "Lecture-11 || Higher Education by Navneet Sir( उच्च शिक्षा, परिचय )",
+                                pdfUrl: "https://pixeldrain.com/api/file/3C6Tyz9B0000"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Lecture-12 || Higher Education by Navneet Sir( उच्च शिक्षा, परिचय )",
+                        videoId: "3cAptRXakwM",
+                        thumbnail: "https://i.ytimg.com/vi/3cAptRXakwM/hqdefault.jpg",
+                        duration: "01:11:14",
+                        notes: [
+                            {
+                                title: "Lecture-12 || Higher Education by Navneet Sir( उच्च शिक्षा, परिचय )",
+                                pdfUrl: "https://pixeldrain.com/api/file/3C6Tyz9B"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Lecture-13 || Higher Education by Navneet Sir( उच्च शिक्षा, परिचय )",
+                        videoId: "qMsN7Vfo4s8",
+                        thumbnail: "https://i.ytimg.com/vi/qMsN7Vfo4s8/hqdefault.jpg",
+                        duration: "01:15:11",
+                        notes: [
+                            {
+                                title: "Lecture-13 || Higher Education by Navneet Sir( उच्च शिक्षा, परिचय )",
+                                pdfUrl: "https://pixeldrain.com/api/file/RoibtwYu"
+                            }
+                        ]
+                    },
+                    {
+                        title: "Lecture-14 || Higher Education by Navneet Sir( उच्च शिक्षा, परिचय )",
+                        videoId: "ir1GsaPh9Og",
+                        thumbnail: "https://i.ytimg.com/vi/ir1GsaPh9Og/hqdefault.jpg",
+                        duration: "01:17:35",
+                        notes: [
+                            {
+                                title: "Lecture-14 || Higher Education by Navneet Sir( उच्च शिक्षा, परिचय )",
+                                pdfUrl: "https://pixeldrain.com/api/file/bcezvY9k"
+                            }
+                        ]
+                    },
+                ]
+            },
+        };
+
+        // --- Utility Functions ---
+
+        /**
+         * Shows a custom message box with a given message and type (success/error/info).
+         * @param {string} message - The message to display.
+         * @param {string} type - 'success', 'error', or 'info'.
+         * @param {number} duration - How long the message should be visible in milliseconds.
+         */
+        function showMessageBox(message, type = 'success', duration = 3000) {
+            messageBoxElement.textContent = ''; // Clear previous content
+            messageBoxElement.classList.remove('hidden', 'success', 'error', 'info');
+            messageBoxElement.classList.add(type);
+
+            const icon = document.createElement('i');
+            icon.classList.add('mr-2', 'fas');
+            if (type === 'success') icon.classList.add('fa-check-circle');
+            else if (type === 'error') icon.classList.add('fa-exclamation-circle');
+            else if (type === 'info') icon.classList.add('fa-info-circle');
+            messageBoxElement.appendChild(icon);
+
+            const textNode = document.createTextNode(message);
+            messageBoxElement.appendChild(textNode);
+
+            messageBoxElement.classList.remove('hidden');
+
+            setTimeout(() => {
+                messageBoxElement.classList.add('hidden');
+            }, duration);
+        }
+
+        /**
+         * Handles login form submission.
+         * @param {Event} e - The form submission event.
+         */
+        function handleLogin(e) {
+            e.preventDefault();
+            const passwordInputElem = document.getElementById('passwordInput');
+            const password = passwordInputElem.value.trim();
+
+            if (password === CORRECT_PASSWORD) {
+                isLoggedIn = true;
+                localStorage.setItem('isLoggedIn', 'true');
+                loginError = ''; // Clear error message
+                showMessageBox('Login Successful!', 'success');
+                renderApp(); // Re-render the app to show main content
+                // Set initial playlist and video after successful login
+                const firstPlaylistId = Object.keys(courseContent)[0];
+                if (firstPlaylistId) {
+                    currentPlaylistId = firstPlaylistId;
+                    if (courseContent[firstPlaylistId].videos.length > 0) {
+                        currentVideoIndex = 0;
+                        currentVideoId = courseContent[firstPlaylistId].videos[0].videoId;
+                    }
+                }
+            } else {
+                loginError = 'Incorrect password. Please try again.';
+                showMessageBox('Incorrect password. Please try again.', 'error');
+                const loginBox = document.querySelector('.login-box');
+                if (loginBox) {
+                    loginBox.classList.add('shake');
+                    setTimeout(() => {
+                        loginBox.classList.remove('shake');
+                    }, 500);
+                }
+                renderApp(); // Re-render to show error message
+            }
+        }
+
+        /**
+         * Handles user logout.
+         */
+        function handleLogout() {
+            isLoggedIn = false;
+            localStorage.removeItem('isLoggedIn');
+            passwordInput = '';
+            currentPlaylistId = null;
+            currentVideoIndex = 0;
+            currentVideoId = null;
+            activeMobileTab = 'upNext'; // Reset active tab on logout
+            showMessageBox('Logged out successfully.', 'info');
+            renderApp(); // Re-render to show login page
+        }
+
+        /**
+         * Plays a specific video from a playlist.
+         * @param {string} playlistId - The ID of the playlist.
+         * @param {number} videoIndex - The index of the video in the playlist.
+         */
+        function playVideo(playlistId, videoIndex) {
+            const video = courseContent[playlistId].videos[videoIndex];
+            currentPlaylistId = playlistId;
+            currentVideoIndex = videoIndex;
+            currentVideoId = video.videoId;
+
+            // On mobile, switch to 'upNext' tab when a video is played
+            if (window.innerWidth < 1024) {
+                activeMobileTab = 'upNext';
+            }
+            renderApp(); // Re-render to update video player and playlists
+        }
+
+        /**
+         * Sets the active mobile tab.
+         * @param {string} tabName - The name of the tab to activate ('upNext', 'playlists', 'notes').
+         */
+        function setActiveMobileTab(tabName) {
+            activeMobileTab = tabName;
+            renderApp(); // Re-render to show active tab content
+        }
+
+        /**
+         * Downloads a PDF file.
+         * @param {string} url - The URL of the PDF.
+         * @param {string} title - The title of the PDF for the filename.
+         */
+        function downloadPDF(url, title) {
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${title}.pdf`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            showMessageBox(`Downloading "${title}.pdf"...`, 'success');
+        }
+
+        /**
+         * Copies the YouTube video link to the clipboard.
+         */
+        function copyVideoLink() {
+            if (!currentVideoId) {
+                showMessageBox('No video selected to copy link.', 'error');
+                return;
+            }
+            const youtubeUrl = `https://www.youtube.com/watch?v=${currentVideoId}`;
+            try {
+                // Use document.execCommand('copy') as navigator.clipboard.writeText() might not work in iframes
+                const tempInput = document.createElement('textarea');
+                tempInput.value = youtubeUrl;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                document.execCommand('copy');
+                document.body.removeChild(tempInput);
+                showMessageBox('YouTube Video URL copied to clipboard!', 'success', 3000);
+            } catch (err) {
+                console.error('Failed to copy text: ', err);
+                showMessageBox('Failed to copy URL. Please copy manually from the prompt.', 'error');
+                prompt("Copy this URL:", youtubeUrl);
+            }
+        }
+
+        // --- Render Functions (to build HTML strings) ---
+
+        /**
+         * Renders the login page HTML.
+         * @returns {string} HTML string for the login page.
+         */
+        function renderLoginPage() {
+            return `
+                <div class="login-container">
+                    <div class="login-box gradient-border-wrap">
+                        <div class="gradient-border-content p-8 rounded-2xl">
+                            <div class="logo">
+                                <div class="logo-icon">
+                                    <i class="fas fa-graduation-cap"></i>
+                                </div>
+                                <div class="logo-text">Pankaj Kr Yadav</div>
+                            </div>
+                            <h1 class="text-white"><i class="fas fa-lock"></i> Secure Access Required</h1>
+                            ${loginError ? `
+                                <p class="text-red-500 text-center mb-4 text-sm flex items-center justify-center">
+                                    <i class="fas fa-exclamation-circle mr-2"></i> ${loginError}
+                                </p>
+                            ` : ''}
+                            <form id="loginForm">
+                                <div class="password-container">
+                                    <input type="password" id="passwordInput" placeholder="Enter your access password" value="${passwordInput}">
+                                    <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+                                </div>
+                                <button class="login-btn" id="loginBtn">
+                                    <i class="fas fa-unlock-alt"></i> Access Learning Portal
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        /**
+         * Renders the main application content HTML.
+         * @returns {string} HTML string for the main app.
+         */
+        function renderMainApp() {
+            const currentVideo = currentPlaylistId && courseContent[currentPlaylistId] &&
+                courseContent[currentPlaylistId].videos[currentVideoIndex];
+
+            const currentPlaylistVideos = currentPlaylistId && courseContent[currentPlaylistId]
+                ? courseContent[currentPlaylistId].videos
+                : [];
+
+            const upNextVideos = currentPlaylistVideos.filter((_, index) => index > currentVideoIndex);
+
+            return `
+                <!-- Header (fixed at top) -->
+                <header class="fixed-header">
+                    <div class="header-logo-container">
+                        <div class="header-logo-icon">
+                            <i class="fas fa-graduation-cap"></i>
+                        </div>
+                        <h1 class="header-logo-text">KGS Study</h1>
+                        <!-- Navigation links (desktop only) -->
+                        <nav class="hidden lg:flex space-x-6 ml-8 text-sm">
+                            <a href="#" class="nav-link">Home</a>
+                            <a href="#" class="nav-link">Courses</a>
+                            <a href="#" class="nav-link">My List</a>
+                        </nav>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="relative hidden sm:block">
+                            <input type="text" placeholder="Search..." class="search-input">
+                            <i class="fas fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        </div>
+                        <button class="icon-button hidden sm:block">
+                            <i class="fas fa-bell"></i>
+                        </button>
+                        <button id="logoutBtn" class="logout-btn">
+                            <i class="fas fa-sign-out-alt mr-2"></i> <span class="hidden sm:inline">Logout</span>
+                        </button>
+                    </div>
+                </header>
+
+                <!-- Main Content Area (adjust for fixed header) -->
+                <div class="main-content-area">
+                    <div class="main-content-grid">
+                        <!-- Left Column: Video Player -->
+                        <div class="video-player-wrapper">
+                            <div class="video-player-section gradient-border-wrap">
+                                <div class="gradient-border-content rounded-lg overflow-hidden">
+                                    <div class="video-iframe-container">
+                                        ${currentVideo ? `
+                                            <iframe
+                                                src="https://www.youtube-nocookie.com/embed/${currentVideo.videoId}?autoplay=1&modestbranding=1&rel=0&controls=1&showinfo=0"
+                                                title="${currentVideo.title}"
+                                                frameborder="0"
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                allowfullscreen
+                                            ></iframe>
+                                        ` : `
+                                            <div class="flex flex-col items-center justify-center h-full min-h-[300px] text-center text-gray-500 p-4 bg-[#181818]">
+                                                <i class="fas fa-play-circle text-6xl mb-4 text-red-500"></i>
+                                                <p class="text-xl font-semibold">Select a video to start learning!</p>
+                                            </div>
+                                        `}
+                                    </div>
+
+                                    <!-- Video Info and Controls -->
+                                    <div class="video-details bg-[#181818]">
+                                        <h2 class="video-title">${currentVideo ? currentVideo.title : 'No Video Selected'}</h2>
+                                        <p class="video-description">${currentPlaylistId ? courseContent[currentPlaylistId].description : 'Select a course and video to view details.'}</p>
+                                        <button id="copyVideoLinkBtn" class="share-link-button">
+                                            <i class="fas fa-share-alt mr-2"></i> Copy Video Link
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Playlists & Notes -->
+                        <div class="flex flex-col gap-4">
+                            <!-- Mobile Tabs for Playlists/Up Next/Notes -->
+                            <div class="mobile-tabs-container">
+                                <button onclick="setActiveMobileTab('upNext')" class="${activeMobileTab === 'upNext' ? 'active' : ''}">
+                                    Up Next
+                                </button>
+                                <button onclick="setActiveMobileTab('playlists')" class="${activeMobileTab === 'playlists' ? 'active' : ''}">
+                                    Playlists
+                                </button>
+                                <button onclick="setActiveMobileTab('notes')" class="${activeMobileTab === 'notes' ? 'active' : ''}">
+                                    Notes
+                                </button>
+                            </div>
+
+                            <!-- Up Next Section (Desktop & Mobile Tab) -->
+                            <div class="content-row ${currentVideo && upNextVideos.length > 0 ? '' : 'hidden'} ${activeMobileTab === 'upNext' ? '' : 'hidden lg:block'}">
+                                <h3 class="content-section-title">Up Next</h3>
+                                <div class="content-list-or-carousel custom-scrollbar">
+                                    ${upNextVideos.map((video, index) => `
+                                        <div
+                                            class="content-card video-card gradient-border-wrap"
+                                            onclick="playVideo('${currentPlaylistId}', ${currentVideoIndex + 1 + index})"
+                                        >
+                                            <div class="gradient-border-content rounded-md overflow-hidden bg-[#282828]">
+                                                <div class="relative">
+                                                    <img
+                                                        src="${video.thumbnail}"
+                                                        alt="${video.title}"
+                                                        class="card-thumbnail"
+                                                        onerror="this.onerror=null;this.src='https://placehold.co/160x90/303030/808080?text=No+Thumbnail';"
+                                                    />
+                                                    <div class="video-thumbnail-overlay">
+                                                        <i class="fas fa-play-circle text-xl"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="card-info">
+                                                    <h4 class="card-title">${video.title}</h4>
+                                                    <p class="card-duration">${video.duration}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+
+                            <!-- Course Playlists (Desktop & Mobile Tab) -->
+                            <div class="content-row ${activeMobileTab === 'playlists' ? '' : 'hidden'} lg:block">
+                                <h2 class="content-section-title">Course Playlists</h2>
+                                <div class="content-list-or-carousel custom-scrollbar">
+                                    ${Object.keys(courseContent).map((playlistId) => `
+                                        <div
+                                            class="content-card video-card gradient-border-wrap"
+                                            onclick="playVideo('${playlistId}', 0)"
+                                        >
+                                            <div class="gradient-border-content rounded-md overflow-hidden bg-[#282828]">
+                                                <div class="relative">
+                                                    <img
+                                                        src="${courseContent[playlistId].videos[0]?.thumbnail || 'https://placehold.co/160x90/303030/808080?text=Playlist'}"
+                                                        alt="${courseContent[playlistId].title}"
+                                                        class="card-thumbnail"
+                                                        onerror="this.onerror=null;this.src='https://placehold.co/160x90/303030/808080?text=Playlist';"
+                                                    />
+                                                    <div class="video-thumbnail-overlay ${currentPlaylistId === playlistId ? 'opacity-100' : ''}">
+                                                        <i class="fas fa-folder text-xl"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="card-info">
+                                                    <h4 class="card-title">${courseContent[playlistId].title}</h4>
+                                                    <p class="card-duration">Courses</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+
+                            <!-- Study Notes Section (Desktop & Mobile Tab) -->
+                            <div class="notes-section gradient-border-wrap ${currentVideo ? '' : 'hidden'} ${activeMobileTab === 'notes' ? '' : 'hidden lg:block'}">
+                                <div class="gradient-border-content rounded-lg bg-[#181818] p-4">
+                                    <h2 class="content-section-title">Study Notes</h2>
+                                    <ul class="notes-list custom-scrollbar">
+                                        ${currentVideo && currentVideo.notes && currentVideo.notes.length > 0 ? `
+                                            ${currentVideo.notes.map((note, index) => `
+                                                <li class="note-item">
+                                                    <div class="note-title-text">
+                                                        <i class="fas fa-file-pdf text-red-500"></i>
+                                                        <span>${note.title}</span>
+                                                    </div>
+                                                    <button
+                                                        onclick="downloadPDF('${note.pdfUrl}', '${note.title}')"
+                                                        class="download-pdf-btn"
+                                                    >
+                                                        <i class="fas fa-download mr-1"></i> Download
+                                                    </button>
+                                                </li>
+                                            `).join('')}
+                                        ` : `
+                                            <li class="text-gray-500 text-center py-4 text-sm">No study notes available for this video.</li>
+                                        `}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        /**
+         * Main render function to update the DOM based on global state.
+         */
+        function renderApp() {
+            if (isLoggedIn) {
+                appContainer.innerHTML = renderMainApp();
+                attachMainAppEventListeners();
+            } else {
+                appContainer.innerHTML = renderLoginPage();
+                attachLoginPageEventListeners();
+            }
+        }
+
+        /**
+         * Attaches event listeners for the login page elements.
+         */
+        function attachLoginPageEventListeners() {
+            const loginForm = document.getElementById('loginForm');
+            if (loginForm) {
+                loginForm.addEventListener('submit', handleLogin);
+            }
+            const passwordInputElem = document.getElementById('passwordInput');
+            if (passwordInputElem) {
+                passwordInputElem.value = passwordInput; // Set current value
+                passwordInputElem.addEventListener('input', (e) => {
+                    passwordInput = e.target.value;
+                });
+            }
+            const togglePasswordVisibilityBtn = document.getElementById('togglePassword');
+            if (togglePasswordVisibilityBtn) {
+                togglePasswordVisibilityBtn.addEventListener('click', () => {
+                    if (passwordInputElem) {
+                        passwordInputElem.type = passwordInputElem.type === 'password' ? 'text' : 'password';
+                        togglePasswordVisibilityBtn.classList.toggle('fa-eye');
+                        togglePasswordVisibilityBtn.classList.toggle('fa-eye-slash');
+                    }
+                });
+            }
+        }
+
+        /**
+         * Attaches event listeners for the main application elements.
+         */
+        function attachMainAppEventListeners() {
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', handleLogout);
+            }
+            const copyVideoLinkBtn = document.getElementById('copyVideoLinkBtn');
+            if (copyVideoLinkBtn) {
+                copyVideoLinkBtn.addEventListener('click', copyVideoLink);
+            }
+            // Event listeners for mobile tabs (if present)
+            const mobileTabsContainer = document.querySelector('.mobile-tabs-container');
+            if (mobileTabsContainer) {
+                mobileTabsContainer.querySelectorAll('button').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        // Remove active class from all buttons
+                        mobileTabsContainer.querySelectorAll('button').forEach(btn => btn.classList.remove('active'));
+                        // Add active class to the clicked button
+                        e.target.classList.add('active');
+                        setActiveMobileTab(e.target.textContent.trim().toLowerCase().replace(' ', ''));
+                    });
+                });
+            }
+        }
+
+        /**
+         * Create floating particles for background effect.
+         */
+        function createParticles() {
+            const particleCount = window.innerWidth < 768 ? 15 : 30; // Fewer particles on mobile
+            particlesContainer.innerHTML = ''; // Clear existing particles
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+
+                // Random size between 100px and 300px
+                const size = Math.random() * 200 + 100;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+
+                // Random position
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.bottom = `-${size}px`; // Start off-screen
+
+                // Random animation duration between 15s and 30s
+                const duration = Math.random() * 15 + 15;
+                particle.style.animationDuration = `${duration}s`;
+
+                // Random delay
+                particle.style.animationDelay = `${Math.random() * 10}s`;
+
+                // Random opacity
+                particle.style.opacity = Math.random() * 0.1 + 0.05; // Very subtle opacity
+
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Create particles on load
+            createParticles();
+            // Recreate particles on resize
+            window.addEventListener('resize', createParticles);
+
+            // Check login status from localStorage
+            const storedLoginStatus = localStorage.getItem('isLoggedIn') === 'true';
+            if (storedLoginStatus) {
+                isLoggedIn = true;
+                const firstPlaylistId = Object.keys(courseContent)[0];
+                if (firstPlaylistId) {
+                    currentPlaylistId = firstPlaylistId;
+                    if (courseContent[firstPlaylistId].videos.length > 0) {
+                        currentVideoIndex = 0;
+                        currentVideoId = courseContent[firstPlaylistId].videos[0].videoId;
+                    }
+                }
+            }
+
+            renderApp(); // Initial render of the application
+        });
+    </script>
+</body>
+</html>
 
