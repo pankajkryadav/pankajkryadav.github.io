@@ -1,6 +1,6 @@
 # 🌐 pankajkryadav.github.io
 
- This repository contains the HTML files that make up a demo website, created just for fun.
+ This repository contains the HTML files that make up a demo webpage, created just for fun.
 
 ## 🖥️ About
 
