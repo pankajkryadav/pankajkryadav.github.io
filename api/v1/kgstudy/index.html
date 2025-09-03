@@ -337,12 +337,76 @@
     color: var(--muted);
     letter-spacing: .3px;
     text-align: center;
+    padding: 20px;
   }
 
   iframe {
+    position: absolute;
+    inset: 0;
     border: 0;
     width: 100%;
     height: 100%;
+  }
+
+  /* ---- PLAYER FACADE / INITIATION SEQUENCE ---- */
+  .play-facade {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    overflow: hidden;
+    background: radial-gradient(circle at center, rgba(15,17,26,0.5) 0%, rgba(10,10,16,0.8) 70%);
+  }
+
+  .play-button {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(98, 214, 255, 0.15), transparent 60%);
+    display: grid;
+    place-items: center;
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .play-facade:hover .play-button {
+    transform: scale(1.1);
+  }
+
+  .play-button svg {
+    width: 40px;
+    height: 40px;
+    color: var(--accent);
+    filter: drop-shadow(0 0 10px rgba(98, 214, 255, 0.7));
+    transform: translateX(3px);
+  }
+
+  .play-button::before,
+  .play-button::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    opacity: 0;
+    animation: pulse 2.5s infinite cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .play-button::after {
+    animation-delay: 0.7s;
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+    50% {
+      opacity: 0.5;
+    }
+    100% {
+      transform: scale(1.6);
+      opacity: 0;
+    }
   }
 
   .player-meta {
@@ -1011,22 +1075,45 @@ const App = {
     this.state.currentIndex = index;
     this.state.currentVideoUrl = `https://www.youtube.com/watch?v=${v.videoId}`;
 
-    const params = new URLSearchParams({
-      autoplay: '1', rel: '0', modestbranding: '1', color: 'white', iv_load_policy: '3'
-    });
     this.elements.playerArea.innerHTML = `
-      <iframe 
-        src="https://www.youtube.com/embed/${encodeURIComponent(v.videoId)}?${params.toString()}"
-        title="${v.title}"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerpolicy="strict-origin-when-cross-origin"
-        allowfullscreen>
-      </iframe>`;
+        <div class="play-facade" role="button" tabindex="0" aria-label="Play video: ${v.title}">
+            <div class="play-button">
+                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M7 6V18L18 12L7 6Z"></path></svg>
+            </div>
+        </div>`;
+    this.elements.playerArea.dataset.pendingVideoId = v.videoId;
+    this.elements.playerArea.addEventListener('click', this.initiatePlayer, { once: true });
 
     this.elements.currentTitle.textContent = v.title;
     this.elements.copyBtn.removeAttribute('disabled');
     this.updateNotes(v.notes);
     this.refreshActiveCard();
+  },
+  initiatePlayer() {
+    const videoId = App.elements.playerArea.dataset.pendingVideoId;
+    if (!videoId) return;
+
+    delete App.elements.playerArea.dataset.pendingVideoId;
+
+    const facade = App.elements.playerArea.querySelector('.play-facade');
+    const iframe = document.createElement('iframe');
+    
+    const params = new URLSearchParams({
+      autoplay: '1', rel: '0', modestbranding: '1', color: 'white', iv_load_policy: '3'
+    });
+    iframe.src = `https://www.youtube.com/embed/${encodeURIComponent(videoId)}?${params.toString()}`;
+    iframe.title = App.elements.currentTitle.textContent;
+    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+    iframe.referrerPolicy = "strict-origin-when-cross-origin";
+    iframe.allowFullscreen = true;
+    iframe.style.opacity = 0;
+    
+    App.elements.playerArea.appendChild(iframe);
+
+    const tl = gsap.timeline();
+    tl.to(facade, { autoAlpha: 0, duration: 0.4, ease: 'power2.inOut' })
+      .to(iframe, { autoAlpha: 1, duration: 0.4 }, "-=0.2")
+      .call(() => facade.remove());
   },
   updateNotes(notes = []) {
     const hasNotes = notes.length > 0 && notes[0].pdfUrl && notes[0].pdfUrl !== '#';
@@ -1058,7 +1145,7 @@ const App = {
     }
   },
   clearPlayer() {
-    this.elements.playerArea.innerHTML = '<div class="placeholder">No video available</div>';
+    this.elements.playerArea.innerHTML = '<div class="placeholder">Select a lecture to begin</div>';
     this.elements.currentTitle.textContent = 'No video selected';
     this.elements.copyBtn.setAttribute('disabled', 'true');
     this.state.currentVideoUrl = null;
@@ -1074,8 +1161,6 @@ const App = {
       card.style.display = match ? '' : 'none';
     });
   },
-  
-  // --- DEFINITIVE CLIPBOARD FIX ---
   copyVideoLink() {
     if (!this.state.currentVideoUrl) return;
 
@@ -1099,32 +1184,25 @@ const App = {
         }, 2000);
     };
 
-    // Modern API is still the first choice for compatible environments.
     if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(this.state.currentVideoUrl)
             .then(() => showFeedback(true))
-            .catch(() => this.fallbackCopy(this.state.currentVideoUrl, showFeedback)); // Attempt fallback on modern API failure
+            .catch(() => this.fallbackCopy(this.state.currentVideoUrl, showFeedback)); 
         return;
     }
     
-    // Execute the final, most robust fallback for all other cases.
     this.fallbackCopy(this.state.currentVideoUrl, showFeedback);
   },
 
   fallbackCopy(textToCopy, callback) {
     const textArea = document.createElement('textarea');
     textArea.value = textToCopy;
-    
-    // This styling is the most crucial part for iOS compatibility.
-    // It needs to be in the DOM and technically 'visible' but positioned off-screen.
     textArea.style.position = 'fixed';
     textArea.style.top = '-9999px';
     textArea.style.left = '-9999px';
-    textArea.setAttribute('readonly', ''); // Prevents keyboard from showing on mobile.
+    textArea.setAttribute('readonly', '');
 
     document.body.appendChild(textArea);
-    
-    // The selection logic must be precise.
     textArea.select();
     textArea.setSelectionRange(0, textArea.value.length);
 
