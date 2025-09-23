@@ -1,1 +1,1254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Pankaj Kr Yadav | Secure Stream</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Orbitron:wght@900&display=swap" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+<style>
+  :root {
+    --bg: #0A0A10;
+    --panel: #0F111A;
+    --panel-2: #121424;
+    --text: #E6F1FF;
+    --muted: #8A94A7;
+    --accent: #62d6ff;
+    --accent-2: #9b6bff;
+    --danger: #ff6b6b;
+    --success: #4ade80;
+    --radius: 18px;
+    --shadow-1: 0 0 0px rgba(98, 214, 255, 0), 0 0 0px rgba(155, 107, 255, 0);
+    --shadow-2: 0 0 22px rgba(98, 214, 255, 0.25), 0 0 42px rgba(155, 107, 255, 0.18);
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  html,
+  body {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: radial-gradient(1200px 800px at 110% -10%, rgba(155, 107, 255, 0.12), transparent 40%),
+                radial-gradient(1000px 700px at -10% 110%, rgba(98, 214, 255, 0.12), transparent 45%),
+                var(--bg);
+    color: var(--text);
+    font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ---------- Login Gate ---------- */
+  #gate {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: grid;
+    place-items: center;
+    background: transparent;
+    overflow: hidden;
+  }
+
+  .gate-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(16, 18, 32, 0.85), rgba(7, 8, 15, 0.9));
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  #particles {
+    position: absolute;
+    inset: 0;
+    filter: blur(.2px);
+    opacity: .65;
+  }
+
+  .gate-card {
+    position: relative;
+    width: min(560px, 92vw);
+    background: linear-gradient(180deg, rgba(20, 22, 35, 0.7), rgba(12, 14, 24, 0.9));
+    border: 1px solid rgba(98, 214, 255, 0.18);
+    border-radius: calc(var(--radius) + 8px);
+    padding: clamp(20px, 4vw, 28px);
+    box-shadow: 0 0 0 1px rgba(155, 107, 255, 0.12) inset, var(--shadow-2);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    z-index: 1;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .brand .logo {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    background:
+      radial-gradient(120% 120% at 0% 0%, rgba(98, 214, 255, 0.4), transparent 60%),
+      radial-gradient(120% 120% at 100% 100%, rgba(155, 107, 255, 0.35), transparent 60%),
+      linear-gradient(180deg, #12142a, #0f1022);
+    border: 1px solid rgba(98, 214, 255, 0.35);
+    box-shadow: var(--shadow-2);
+  }
+
+  .brand h1 {
+    margin: 0;
+    font-weight: 700;
+    letter-spacing: .3px;
+    font-size: clamp(1.2rem, 5vw, 1.35rem);
+  }
+
+  .brand h1 span {
+    color: var(--accent);
+  }
+
+  .gate-desc {
+    margin: 2px 0 0;
+    color: var(--muted);
+    font-size: .95rem;
+  }
+
+  .input-wrap {
+    position: relative;
+    display: flex;
+    gap: 10px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+  }
+
+  .input {
+    flex: 1 1 200px;
+    font: 600 1rem/1 'Poppins', sans-serif;
+    color: var(--text);
+    background: rgba(10, 12, 22, 0.85);
+    border: 1px solid rgba(98, 214, 255, 0.25);
+    outline: none;
+    padding: 16px;
+    border-radius: 14px;
+    box-shadow: inset 0 0 0 1px rgba(155, 107, 255, 0.14);
+    transition: border .25s ease, box-shadow .25s ease;
+    width: 100%; /* Fix for overflow */
+  }
+
+  .input:focus-visible {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(98, 214, 255, 0.15), inset 0 0 0 1px rgba(155, 107, 255, 0.16);
+  }
+
+  .btn {
+    white-space: nowrap;
+    padding: 14px 18px;
+    border-radius: 14px;
+    border: 1px solid rgba(98, 214, 255, 0.55);
+    background: linear-gradient(180deg, rgba(98, 214, 255, 0.18), rgba(98, 214, 255, 0.08));
+    color: var(--text);
+    font-weight: 700;
+    letter-spacing: .2px;
+    cursor: pointer;
+    transition: transform .15s ease, filter .2s ease, box-shadow .3s ease, background .2s ease, border-color .2s ease;
+    box-shadow: 0 0 0 1px rgba(155, 107, 255, 0.18) inset, 0 10px 30px -12px rgba(98, 214, 255, 0.35);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .input-wrap .btn { flex: 1 1 auto; }
+  @media (min-width: 400px) {
+    .input-wrap .btn { flex: 0 1 auto; }
+  }
+
+
+  .btn:hover {
+    filter: brightness(1.1);
+  }
+
+  .btn:active {
+    transform: translateY(1px) scale(.99);
+  }
+  
+  .btn.copied {
+    background: linear-gradient(180deg, rgba(74, 222, 128, 0.2), rgba(74, 222, 128, 0.1));
+    border-color: rgba(74, 222, 128, 0.5);
+    color: #a7f3d0;
+  }
+  
+  .btn.failed {
+    background: linear-gradient(180deg, rgba(255, 107, 107, 0.2), rgba(255, 107, 107, 0.1));
+    border-color: rgba(255, 107, 107, 0.5);
+  }
+
+
+  .error {
+    min-height: 22px;
+    font-size: .92rem;
+    color: var(--danger);
+    font-weight: 600;
+  }
+
+  .tiny {
+    font-size: .8rem;
+    color: var(--muted);
+  }
+
+  /* ---------- App Shell ---------- */
+  .app-shell { visibility: hidden; } /* Hide until revealed by GSAP */
+
+  header.app {
+    position: sticky;
+    top: 0;
+    z-index: 12;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px clamp(12px, 3vw, 22px);
+    background: color-mix(in srgb, var(--bg) 84%, transparent);
+    border-bottom: 1px solid rgba(98, 214, 255, 0.12);
+    backdrop-filter: saturate(120%) blur(8px);
+    -webkit-backdrop-filter: saturate(120%) blur(8px);
+  }
+  
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    overflow: hidden; /* Hide tab overflow while wrapping */
+  }
+
+  .app-title-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .app-logo {
+    width: 38px; height: 38px;
+    color: var(--accent);
+  }
+  
+  .title {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    letter-spacing: 1px;
+    font-size: clamp(1.1rem, 4vw, 1.25rem);
+    background: linear-gradient(45deg, var(--accent) 20%, var(--accent-2) 80%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 20px rgba(98,214,255,0.2), 0 0 30px rgba(155,107,255,0.15);
+  }
+
+  .logout-btn {
+    --size: 32px;
+    width: var(--size);
+    height: var(--size);
+    display: grid; place-items: center;
+    background: rgba(255,107,107,0.1);
+    border: 1px solid rgba(255,107,107,0.3);
+    border-radius: 50%;
+    color: rgba(255,107,107,0.8);
+    cursor: pointer;
+    transition: all .2s ease;
+    flex-shrink: 0;
+  }
+  .logout-btn:hover {
+    background: rgba(255,107,107,0.2);
+    color: rgba(255,107,107,1);
+    box-shadow: 0 0 12px rgba(255,107,107,0.3);
+  }
+
+  .tabs {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .tab {
+    padding: 10px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: .95rem;
+    color: var(--text);
+    background: linear-gradient(180deg, rgba(155, 107, 255, 0.16), rgba(98, 214, 255, 0.10));
+    border: 1px solid rgba(98, 214, 255, 0.28);
+    transition: filter .2s ease, box-shadow .3s ease, transform .15s ease, background .3s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .tab:hover {
+    filter: brightness(1.1);
+  }
+
+  .tab.active, .tab[aria-current="true"] {
+    background: linear-gradient(180deg, rgba(98, 214, 255, 0.22), rgba(98, 214, 255, 0.14));
+    border-color: rgba(98, 214, 255, 0.6);
+    box-shadow: 0 0 0 2px rgba(98, 214, 255, 0.15), inset 0 0 18px rgba(98, 214, 255, 0.18);
+  }
+
+  .wrap {
+    padding: 24px clamp(12px, 3vw, 22px) 32px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .grid {
+    display: grid;
+    gap: 24px;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  }
+
+  /* Left: video */
+  .player-card {
+    background: linear-gradient(180deg, rgba(20, 22, 35, 0.75), rgba(12, 14, 24, 0.95));
+    border: 1px solid rgba(98, 214, 255, 0.18);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-2);
+    overflow: hidden;
+  }
+
+  .player-wrapper {
+    position: relative;
+    aspect-ratio: 16/9;
+    width: 100%;
+    background:
+      radial-gradient(120% 80% at 10% 20%, rgba(155, 107, 255, 0.15), transparent 40%),
+      linear-gradient(180deg, #0b0d17, #0a0a10);
+    display: grid;
+    place-items: center;
+  }
+
+  .placeholder {
+    font-weight: 700;
+    color: var(--muted);
+    letter-spacing: .3px;
+    text-align: center;
+    padding: 20px;
+  }
+
+  iframe {
+    position: absolute;
+    inset: 0;
+    border: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* ---- PLAYER FACADE / INITIATION SEQUENCE ---- */
+  .play-facade {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    overflow: hidden;
+    background: radial-gradient(circle at center, rgba(15,17,26,0.5) 0%, rgba(10,10,16,0.8) 70%);
+  }
+
+  .play-button {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(98, 214, 255, 0.15), transparent 60%);
+    display: grid;
+    place-items: center;
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .play-facade:hover .play-button {
+    transform: scale(1.1);
+  }
+
+  .play-button svg {
+    width: 40px;
+    height: 40px;
+    color: var(--accent);
+    filter: drop-shadow(0 0 10px rgba(98, 214, 255, 0.7));
+    transform: translateX(3px);
+  }
+
+  .play-button::before,
+  .play-button::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    opacity: 0;
+    animation: pulse 2.5s infinite cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  .play-button::after {
+    animation-delay: 0.7s;
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+    50% {
+      opacity: 0.5;
+    }
+    100% {
+      transform: scale(1.6);
+      opacity: 0;
+    }
+  }
+
+  .player-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 16px;
+    border-top: 1px solid rgba(98, 214, 255, 0.12);
+    flex-wrap: wrap;
+  }
+
+  .video-title {
+    margin: 0;
+    font-size: clamp(1rem, 3vw, 1.05rem);
+    font-weight: 700;
+    flex: 1 1 200px;
+  }
+
+  .actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    flex: 1 1 250px;
+    justify-content: flex-end;
+  }
+  
+  .btn.icon-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn[disabled] {
+    cursor: not-allowed;
+    opacity: .6;
+    filter: none;
+    pointer-events: none;
+  }
+  
+  .sel {
+    appearance: none;
+    -webkit-appearance: none;
+    background: rgba(10, 12, 22, 0.8);
+    color: var(--text);
+    border: 1px solid rgba(98, 214, 255, 0.28);
+    padding: 10px 12px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  /* Right: list */
+  .list-card {
+    background: linear-gradient(180deg, rgba(20, 22, 35, 0.75), rgba(12, 14, 24, 0.95));
+    border: 1px solid rgba(98, 214, 255, 0.18);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-2);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 400px;
+  }
+
+  .list-head {
+    padding: 12px 14px;
+    border-bottom: 1px solid rgba(98, 214, 255, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  
+  .list-head strong { font-size: 1.05rem; }
+
+  .search {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 180px;
+    background: rgba(10, 12, 22, 0.8);
+    border: 1px solid rgba(98, 214, 255, 0.22);
+    border-radius: 12px;
+    padding: 10px 12px;
+  }
+
+  .search input {
+    flex: 1;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    color: var(--text);
+    font-weight: 600;
+    font-size: 0.95rem;
+    width: 100%;
+  }
+  .search input::placeholder { color: var(--muted); opacity: 0.8; }
+
+  .list {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+    max-height: calc(100vh - 280px);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .card {
+    display: grid;
+    grid-template-columns: clamp(120px, 30%, 160px) 1fr;
+    gap: 12px;
+    align-items: center;
+    background: linear-gradient(180deg, rgba(14, 16, 28, 0.7), rgba(12, 14, 24, 0.9));
+    border: 1px solid rgba(98, 214, 255, 0.18);
+    border-radius: 14px;
+    padding: 8px;
+    cursor: pointer;
+    transition: transform .12s ease, box-shadow .25s ease, border-color .25s ease, background .3s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-2)
+  }
+
+  .card.active, .card[aria-current="true"] {
+    border-color: rgba(98, 214, 255, 0.6);
+    box-shadow: 0 0 0 2px rgba(98, 214, 255, 0.15), inset 0 0 18px rgba(98, 214, 255, 0.18);
+    background: linear-gradient(180deg, rgba(98, 214, 255, 0.16), rgba(98, 214, 255, 0.08));
+  }
+
+  .thumb {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 1px solid rgba(98, 214, 255, 0.18);
+    background-color: #000;
+  }
+
+  .meta {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .meta h4 {
+    margin: 0;
+    font-size: clamp(0.9rem, 2.5vw, 0.98rem);
+    font-weight: 700;
+  }
+
+  .row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    color: var(--muted);
+    font-weight: 600;
+    font-size: .9rem;
+  }
+
+  .tag {
+    padding: 4px 8px;
+    border-radius: 999px;
+    border: 1px solid rgba(98, 214, 255, 0.2);
+    color: #bfefff;
+    background: rgba(98, 214, 255, 0.08);
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .2px;
+  }
+
+  .soon {
+    color: #ffd384;
+    border-color: rgba(255, 211, 132, 0.25);
+    background: rgba(255, 211, 132, 0.08);
+  }
+
+  /* Scrollbar */
+  .list::-webkit-scrollbar {
+    width: 10px;
+  }
+  .list::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+  }
+  .list::-webkit-scrollbar-thumb {
+    background: linear-gradient(var(--accent), var(--accent-2));
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: content-box;
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+    .list {
+      max-height: 50vh;
+    }
+  }
+
+  /* MOBILE: Edge-to-edge player in portrait */
+  @media (max-width: 768px) and (orientation: portrait) {
+    .wrap {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .player-card {
+        border-left: 0;
+        border-right: 0;
+        border-radius: 0;
+    }
+    .grid {
+      gap: 0; /* Remove gap for seamless look */
+    }
+    .list-card {
+        margin: 24px clamp(12px, 3vw, 22px);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .header-left {
+        gap: 12px;
+    }
+    .tabs {
+        gap: 8px;
+    }
+    .tab {
+        padding: 8px 12px;
+        font-size: 0.9rem;
+    }
+    .wrap {
+      padding-top: 16px;
+      padding-bottom: 24px;
+    }
+    .player-meta {
+        padding: 12px clamp(12px, 3vw, 22px);
+    }
+    .list-head {
+        padding: 10px 12px;
+    }
+    .list {
+        padding: 8px;
+    }
+  }
+
+  /* Utility */
+  .visually-hidden {
+    position: absolute !important;
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+    white-space: nowrap;
+    border: 0;
+    padding: 0;
+    margin: -1px;
+  }
+</style>
+</head>
+<body>
+
+<section id="gate" aria-labelledby="gateTitle" aria-describedby="gateDesc">
+  <canvas id="particles" aria-hidden="true"></canvas>
+  <div class="gate-overlay" aria-hidden="true"></div>
+  <div class="gate-card" role="dialog" aria-modal="true">
+    <div class="brand">
+      <div class="logo" aria-hidden="true"></div>
+      <div>
+        <h1 id="gateTitle">Pankaj <span>Kr</span> Yadav</h1>
+        <p id="gateDesc" class="gate-desc">Enter Secure Access Key to continue.</p>
+      </div>
+    </div>
+
+    <div class="input-wrap">
+      <input id="accessKey" class="input" type="password" inputmode="numeric" autocomplete="current-password" maxlength="20" placeholder="Secure Access Key" aria-label="Secure Access Key">
+      <button id="accessBtn" class="btn" aria-label="Unlock">Unlock</button>
+    </div>
+    <div id="error" class="error" role="alert" aria-live="assertive"></div>
+    <p class="tiny">Security note: This key provides access.</p>
+  </div>
+</section>
+
+<div class="app-shell">
+    <header class="app">
+        <div class="header-left">
+            <div class="app-title-container">
+                <svg class="app-logo" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="logo-grad" x1="0" y1="0" x2="100" y2="100" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="var(--accent)"/>
+                            <stop offset="1" stop-color="var(--accent-2)"/>
+                        </linearGradient>
+                        <filter id="logo-glow" x="-50%" y="-50%" width="200%" height="200%">
+                            <feGaussianBlur stdDeviation="8" result="coloredBlur"/>
+                            <feMerge>
+                                <feMergeNode in="coloredBlur"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                    </defs>
+                    <g filter="url(#logo-glow)" opacity="0.5">
+                        <path d="M50 0 L100 25 V75 L50 100 L0 75 V25 Z" fill="url(#logo-grad)"/>
+                    </g>
+                    <path d="M50 5 L95 27.5 V72.5 L50 95 L5 72.5 V27.5 Z" stroke="url(#logo-grad)" stroke-width="3"/>
+                    <path d="M25 35 L40 50 L25 65" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M75 35 L60 50 L75 65" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <h1 class="title">Pankaj Kr Yadav</h1>
+            </div>
+            <nav class="tabs" id="tabs" aria-label="Playlists"></nav>
+        </div>
+        <button id="logoutBtn" class="logout-btn" title="Logout">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+            <span class="visually-hidden">Logout</span>
+        </button>
+    </header>
+
+    <main class="wrap">
+      <section class="grid" id="appGrid" aria-live="polite">
+        <article class="player-card">
+          <div class="player-wrapper" id="playerArea" aria-label="Video player">
+            <div class="placeholder">Select a lecture to begin</div>
+          </div>
+          <div class="player-meta">
+            <h3 id="currentTitle" class="video-title">No video selected</h3>
+            <div class="actions">
+              <select id="notesSelect" class="sel" title="Notes" style="display:none"></select>
+              <button id="copyBtn" class="btn icon-btn" disabled>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.72"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.72-1.72"></path></svg>
+                <span class="copy-text">Copy Link</span>
+              </button> 
+              <a id="notesBtn" class="btn icon-btn" href="#" target="_blank" rel="noopener noreferrer" disabled>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><line x1="10" y1="9" x2="8" y2="9"></line></svg>
+                Download Notes
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <aside class="list-card">
+          <div class="list-head">
+            <strong id="listTitle">Lectures</strong>
+            <label class="search" aria-label="Search lectures">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" opacity=".6" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <input id="search" type="search" placeholder="Search lectures..." autocomplete="off" aria-controls="list">
+            </label>
+          </div>
+          <div id="list" class="list" role="list"></div>
+        </aside>
+      </section>
+    </main>
+</div>
+
+<script>
+/* ========================== Course Data (as provided) ========================== */
+const courseData = {
+    "mishra-sir": {
+        title: "Mathematics",
+        description: "Khan Global Studies - SSC CGL CHSL MTS",
+        videos: [
+            { title: "Lecture-01 ｜｜ Ratio & Proportion (Part 1)", videoId: "2kZl-IJR2IA", thumbnail: "https://i.ytimg.com/vi/2kZl-IJR2IA/hqdefault.jpg", duration: "58:50", notes: [{ title: "Lecture-01 Notes", pdfUrl: "https://pixeldrain.com/api/file/" }] },
+            { title: "Lecture-02 ｜｜ Ratio & Proportion (Part 2)", videoId: "IAO5KXRtZY8", thumbnail: "https://i.ytimg.com/vi/IAO5KXRtZY8/hqdefault.jpg", duration: "01:07:11", notes: [{ title: "Lecture-02 Notes", pdfUrl: "https://pixeldrain.com/api/file/" }] },
+            { title: "Lecture-03 ｜｜ Ratio & Proportion (Part 3)", videoId: "d7Yu5vPS-84", thumbnail: "https://i.ytimg.com/vi/d7Yu5vPS-84/hqdefault.jpg", duration: "01:10:12", notes: [{ title: "Lecture-03 Notes", pdfUrl: "https://pixeldrain.com/api/file/" }] },
+            { title: "Lecture-04 ｜｜ Ratio & Proportion (Part 4)", videoId: "MrWfLkpg9Go", thumbnail: "https://i.ytimg.com/vi/MrWfLkpg9Go/hqdefault.jpg", duration: "01:16:13", notes: [{ title: "Lecture-04 Notes", pdfUrl: "https://pixeldrain.com/api/file/" }] },
+            { title: "Lecture-05 ｜｜ Ratio & Proportion (Part 5)", videoId: "zSPn5UHcnxA", thumbnail: "https://i.ytimg.com/vi/zSPn5UHcnxA/hqdefault.jpg", duration: "01:21:14", notes: [{ title: "Lecture-05 Notes", pdfUrl: "https://pixeldrain.com/api/file/" }] },
+            { title: "Lecture-06 ｜｜ Ratio & Proportion (Part 6)", videoId: "edG5CS3_2rg", thumbnail: "https://i.ytimg.com/vi/edG5CS3_2rg/hqdefault.jpg", duration: "01:04:15", notes: [{ title: "Lecture-06 Notes", pdfUrl: "https://pixeldrain.com/api/file/" }] },
+            { title: "Lecture-07 ｜｜ Ratio & Proportion (Part 7)", videoId: "YNlmN_3D-GQ", thumbnail: "https://i.ytimg.com/vi/YNlmN_3D-GQ/hqdefault.jpg", duration: "01:23:15", notes: [{ title: "Lecture-07 Notes", pdfUrl: "https://pixeldrain.com/api/file/" }] },
+            { title: "Lecture-08 ｜｜ Ratio & Proportion (Part 8)", videoId: "uBuBingHzjY", thumbnail: "https://i.ytimg.com/vi/uBuBingHzjY/hqdefault.jpg", duration: "52:50", notes: [{ title: "Lecture-08 Notes", pdfUrl: "https://pixeldrain.com/api/file/" }] },
+            { title: "Lecture-09 ｜｜ Ratio & Proportion (Part 9)", videoId: "T2soKQHkr2k", thumbnail: "https://i.ytimg.com/vi/T2soKQHkr2k/hqdefault.jpg", duration: "01:27:05", notes: [{ title: "Lecture-09 Notes", pdfUrl: "https://pixeldrain.com/api/file/" }] },
+            { title: "Lecture-10 ｜｜ Ratio & Proportion (Part 10)", videoId: "a1JTXou20nY", thumbnail: "https://i.ytimg.com/vi/a1JTXou20nY/hqdefault.jpg", duration: "01:31:35", notes: [{ title: "Lecture-10 Notes", pdfUrl: "https://pixeldrain.com/api/file/" }] },
+            { title: "Lecture-11 ｜｜ Ratio & Proportion (Part 11)", videoId: "lV86lZFC-vw", thumbnail: "https://i.ytimg.com/vi/lV86lZFC-vw/hqdefault.jpg", duration: "01:25:45", notes: [{ title: "Not Uploaded By Teacher", pdfUrl: "#" }] },
+            { title: "Lecture-12 ｜｜ Ratio & Proportion (Part 12)", videoId: "7RUi8FU5sZI", thumbnail: "https://i.ytimg.com/vi/7RUi8FU5sZI/hqdefault.jpg", duration: "01:11:14", notes: [{ title: "Lecture-12 Notes", pdfUrl: "https://pixeldrain.com/api/file/" }] },
+            { title: "Lecture-13 ｜｜ Ratio & Proportion (Part 13)", videoId: "_nolsUppM5U", thumbnail: "https://i.ytimg.com/vi/_nolsUppM5U/hqdefault.jpg", duration: "01:15:11", notes: [{ title: "Lecture-13 Notes", pdfUrl: "https://pixeldrain.com/api/file/" }] },
+            { title: "Lecture-14 ｜｜ Ratio & Proportion (Part 14)", videoId: "8RZCzS32A_Y", thumbnail: "https://i.ytimg.com/vi/8RZCzS32A_Y/hqdefault.jpg", duration: "01:17:35", notes: [{ title: "Lecture-14 Notes", pdfUrl: "https://pixeldrain.com/api/file/" }] },
+            { title: "Lecture-15 ｜｜ Ratio & Proportion (Part 15)", videoId: "i7JghhDXqSQ", thumbnail: "https://i.ytimg.com/vi/i7JghhDXqSQ/hqdefault.jpg", duration: "01:03:25", notes: [{ title: "Lecture-15 Notes", pdfUrl: "https://pixeldrain.com/api/file/" }] },
+            { title: "Lecture-16 ｜｜ Ratio & Proportion (Part 16)", videoId: "axlxlzzJTlE", thumbnail: "https://i.ytimg.com/vi/axlxlzzJTlE/hqdefault.jpg", duration: "01:23:15", notes: [{ title: "Lecture-16 Notes", pdfUrl: "https://pixeldrain.com/api/file/" }] },
+            { title: "Lecture-17 ｜｜ Percentage (Part-01)", videoId: "4ELYS138Ffs", thumbnail: "https://i.ytimg.com/vi/4ELYS138Ffs/hqdefault.jpg", duration: "01:21:04", notes: [{ title: "Lecture-17 Notes", pdfUrl: "https://pixeldrain.com/api/file/" }] },
+            { title: "Lecture-18 ｜｜ Percentage (Part-02)", videoId: "WwHFffX_u8g", thumbnail: "https://i.ytimg.com/vi/WwHFffX_u8g/hqdefault.jpg", duration: "01:18:10", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-19 ｜｜ Percentage (Part-03)", videoId: "yrBfiAO5fgo", thumbnail: "https://i.ytimg.com/vi/yrBfiAO5fgo/hqdefault.jpg", duration: "01:24:40", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-20 ｜｜ Percentage (Part-04)", videoId: "cZBJvw3zyM8", thumbnail: "https://i.ytimg.com/vi/cZBJvw3zyM8/hqdefault.jpg", duration: "01:16:35", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-21 ｜｜ Percentage (Part-05)", videoId: "_NlWIHeo2d0", thumbnail: "https://i.ytimg.com/vi/_NlWIHeo2d0/hqdefault.jpg", duration: "01:23:15", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-22 ｜｜ Percentage (Part-06)", videoId: "qix2rzD0LeI", thumbnail: "https://i.ytimg.com/vi/qix2rzD0LeI/hqdefault.jpg", duration: "01:23:15", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-23 ｜｜ Percentage (Part-07)", videoId: "gkWVawfI5aQ", thumbnail: "https://i.ytimg.com/vi/gkWVawfI5aQ/hqdefault.jpg", duration: "01:23:15", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-24 ｜｜ Percentage (Part-08)", videoId: "jUEqBzYYRhw", thumbnail: "https://i.ytimg.com/vi/jUEqBzYYRhw/hqdefault.jpg", duration: "01:23:15", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-25 ｜｜ Percentage (Part-09)", videoId: "6x0gWRsO_Sc", thumbnail: "https://i.ytimg.com/vi/6x0gWRsO_Sc/hqdefault.jpg", duration: "01:23:15", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-26 ｜｜ Percentage (Part-10)", videoId: "zlzqymkr4p8", thumbnail: "https://i.ytimg.com/vi/zlzqymkr4p8/hqdefault.jpg", duration: "01:23:15", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-27 ｜｜ Percentage (Part-11)", videoId: "cBiEfLeo_Tg", thumbnail: "https://i.ytimg.com/vi/cBiEfLeo_Tg/hqdefault.jpg", duration: "01:23:15", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-28 ｜｜ Percentage (Part-12)", videoId: "bUs3XEORRp0", thumbnail: "https://i.ytimg.com/vi/bUs3XEORRp0/hqdefault.jpg", duration: "01:23:15", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-29 ｜｜ Percentage (Part-13)", videoId: "Iu41zw-cSWg", thumbnail: "https://i.ytimg.com/vi/Iu41zw-cSWg/hqdefault.jpg", duration: "01:23:15", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-30 ｜｜ Percentage (Part-14)", videoId: "CnyWuD2fU8o", thumbnail: "https://i.ytimg.com/vi/CnyWuD2fU8o/hqdefault.jpg", duration: "01:23:15", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-31 ｜｜ Percentage (Part-15)", videoId: "p-3zBRx9hgg", thumbnail: "https://i.ytimg.com/vi/p-3zBRx9hgg/hqdefault.jpg", duration: "01:23:15", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-32 ｜｜ Percentage (Part-16)", videoId: "_FZkgTI4Sjo", thumbnail: "https://i.ytimg.com/vi/_FZkgTI4Sjo/hqdefault.jpg", duration: "01:23:15", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-33 ｜｜ Percentage (Part-17)", videoId: "KCOrY_otUYU", thumbnail: "https://i.ytimg.com/vi/KCOrY_otUYU/hqdefault.jpg", duration: "01:23:15", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-34 ｜｜ Percentage (Part-18)", videoId: "GP7x7zlNi9A", thumbnail: "https://i.ytimg.com/vi/GP7x7zlNi9A/hqdefault.jpg", duration: "01:23:15", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-35 ｜｜ Percentage (Part-19)", videoId: "in1cwn4OV1E", thumbnail: "https://i.ytimg.com/vi/in1cwn4OV1E/hqdefault.jpg", duration: "01:23:15", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-36 ｜｜ Percentage (Part-20)", videoId: "yBpQbu7D2Ag", thumbnail: "https://i.ytimg.com/vi/yBpQbu7D2Ag/hqdefault.jpg", duration: "01:23:15", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-37 ｜｜ Average (Part 1)", videoId: "PWsO2PW1rdA", thumbnail: "https://i.ytimg.com/vi/PWsO2PW1rdA/hqdefault.jpg", duration: "01:20:10", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-38 ｜｜ Average (Part 2)", videoId: "S6QztaXAVfo", thumbnail: "https://i.ytimg.com/vi/S6QztaXAVfo/hqdefault.jpg", duration: "01:25:35", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-39 ｜｜ Average (Part 3)", videoId: "MkN-gvHFI9k", thumbnail: "https://i.ytimg.com/vi/MkN-gvHFI9k/hqdefault.jpg", duration: "01:22:50", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-40 ｜｜ Average (Part 4)", videoId: "o059-EctaZM", thumbnail: "https://i.ytimg.com/vi/o059-EctaZM/hqdefault.jpg", duration: "01:08:35", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-41 ｜｜ Average (Part 5)", videoId: "LQOV8cQtdT4", thumbnail: "https://i.ytimg.com/vi/LQOV8cQtdT4/hqdefault.jpg", duration: "01:24:16", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-42 ｜｜ Average (Part 6)", videoId: "_KnK9iAEiik", thumbnail: "https://i.ytimg.com/vi/_KnK9iAEiik/hqdefault.jpg", duration: "01:21:10", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-43 ｜｜ Average (Part 7)", videoId: "IwvgENLfg_Q", thumbnail: "https://i.ytimg.com/vi/IwvgENLfg_Q/hqdefault.jpg", duration: "01:19:25", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-44 ｜｜ Average (Part 8)", videoId: "l9ioDTnR3RI", thumbnail: "https://i.ytimg.com/vi/l9ioDTnR3RI/hqdefault.jpg", duration: "01:21:05", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-45 ｜｜ Average (Part 9)", videoId: "Wm4t6fYUEqc", thumbnail: "https://i.ytimg.com/vi/Wm4t6fYUEqc/hqdefault.jpg", duration: "01:15:32", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-46 ｜｜ Average (Part 10)", videoId: "Od7edhW7Po8", thumbnail: "https://i.ytimg.com/vi/Od7edhW7Po8/hqdefault.jpg", duration: "01:23:36", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-47 ｜｜ Average (Part 11)", videoId: "aDQq417icf4", thumbnail: "https://i.ytimg.com/vi/aDQq417icf4/hqdefault.jpg", duration: "01:23:35", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-48 ｜｜ Average (Part 12)", videoId: "Pf-ohFIi0pE", thumbnail: "https://i.ytimg.com/vi/Pf-ohFIi0pE/hqdefault.jpg", duration: "01:21:50", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-49 ｜｜ Average (Part 13)", videoId: "3gGW33lL9RU", thumbnail: "https://i.ytimg.com/vi/3gGW33lL9RU/hqdefault.jpg", duration: "01:24:01", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-50 ｜｜ Average (Part 14)", videoId: "7yGhBnLduo4", thumbnail: "https://i.ytimg.com/vi/7yGhBnLduo4/hqdefault.jpg", duration: "01:24:01", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-51 ｜｜ Average (Part 15)", videoId: "OWadlFObgrQ", thumbnail: "https://i.ytimg.com/vi/OWadlFObgrQ/hqdefault.jpg", duration: "01:24:01", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-52 ｜｜ Mixture and Allegation (Part 1)", videoId: "dj7Wrzm7v5Y", thumbnail: "https://i.ytimg.com/vi/dj7Wrzm7v5Y/hqdefault.jpg", duration: "01:24:01", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-53 ｜｜ Mixture and Allegation (Part 2)", videoId: "27aD86v28As", thumbnail: "https://i.ytimg.com/vi/27aD86v28As/hqdefault.jpg", duration: "01:24:01", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-54 ｜｜ Mixture and Allegation (Part 3)", videoId: "BD8bNjDYZKQ", thumbnail: "https://i.ytimg.com/vi/BD8bNjDYZKQ/hqdefault.jpg", duration: "01:24:01", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-55 ｜｜ Mixture and Allegation (Part 4)", videoId: "Bj9ORrkd-MA", thumbnail: "https://i.ytimg.com/vi/Bj9ORrkd-MA/hqdefault.jpg", duration: "01:24:01", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-56 ｜｜ Mixture and Allegation (Part 5)", videoId: "3Fhe9eOCcs8", thumbnail: "https://i.ytimg.com/vi/3Fhe9eOCcs8/hqdefault.jpg", duration: "01:24:01", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-57 ｜｜ Mixture and Allegation (Part 6)", videoId: "VitPerZs5QE", thumbnail: "https://i.ytimg.com/vi/VitPerZs5QE/hqdefault.jpg", duration: "01:24:01", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-58 ｜｜ Mixture and Allegation (Part 7)", videoId: "C96cc8r9uYQ", thumbnail: "https://i.ytimg.com/vi/C96cc8r9uYQ/hqdefault.jpg", duration: "01:24:01", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-59 ｜｜ Mixture and Allegation (Part 8)", videoId: "PerV4PeatWA", thumbnail: "https://i.ytimg.com/vi/PerV4PeatWA/hqdefault.jpg", duration: "01:24:01", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-60 ｜｜ Mixture and Allegation (Part 9)", videoId: "Q7ICCC3IgQk", thumbnail: "https://i.ytimg.com/vi/Q7ICCC3IgQk/hqdefault.jpg", duration: "01:24:01", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-61 ｜｜ Mixture and Allegation (Part 10)", videoId: "GmcwINCoosk", thumbnail: "https://i.ytimg.com/vi/GmcwINCoosk/hqdefault.jpg", duration: "01:24:01", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-62 ｜｜ Mixture and Allegation (Part 11)", videoId: "4ctQNHJaSEc", thumbnail: "https://i.ytimg.com/vi/4ctQNHJaSEc/hqdefault.jpg", duration: "01:24:01", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-63 ｜｜ Mixture and Allegation (Part 12)", videoId: "rIt9OhRE9XI", thumbnail: "https://i.ytimg.com/vi/rIt9OhRE9XI/hqdefault.jpg", duration: "01:24:01", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-64 ｜｜ Mixture and Allegation (Part 13)", videoId: "wwAasjJ_FMk", thumbnail: "https://i.ytimg.com/vi/wwAasjJ_FMk/hqdefault.jpg", duration: "01:24:01", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-65 ｜｜ Mixture and Allegation (Part 14)", videoId: "QxKZBso70_A", thumbnail: "https://i.ytimg.com/vi/QxKZBso70_A/hqdefault.jpg", duration: "01:24:01", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-66 ｜｜ Mixture and Allegation (Part 15)", videoId: "EQN28bCtqyE", thumbnail: "https://i.ytimg.com/vi/EQN28bCtqyE/hqdefault.jpg", duration: "01:24:01", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-67 ｜｜ Time, Speed & Distance (Part 1)", videoId: "SFwjFDpbJjM", thumbnail: "https://i.ytimg.com/vi/SFwjFDpbJjM/hqdefault.jpg", duration: "01:24:01", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-68 ｜｜ Time, Speed & Distance (Part 2)", videoId: "4aRAWGNgxUI", thumbnail: "https://i.ytimg.com/vi/4aRAWGNgxUI/hqdefault.jpg", duration: "01:24:01", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-69 ｜｜ Time, Speed & Distance (Part 3)", videoId: "nxkBnujVdNg", thumbnail: "https://i.ytimg.com/vi/nxkBnujVdNg/hqdefault.jpg", duration: "01:24:01", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+            { title: "Lecture-70 ｜｜ Time, Speed & Distance (Part 4)", videoId: "v6LOQ4heTEY", thumbnail: "https://i.ytimg.com/vi/v6LOQ4heTEY/hqdefault.jpg", duration: "01:24:01", notes: [{ title: "Notes in Whatsapp ✅", pdfUrl: "#" }] },
+
+
+
+
+            { title: "Upcoming Lecture Soon !", videoId: "", thumbnail: "https://img.freepik.com/free-vector/coming-soon-stay-tuned-sunrise-dark-background-design_1017-54617.jpg", duration: "...", notes: [{ title: "PDF in WhatsApp ✅", pdfUrl: "#" }] }
+        ]
+    }
+};
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', () => {
+
+/* ========================== Security Gate ========================== */
+const Gate = {
+  KEY: "9939053134",
+  STORAGE_KEY: 'kgs:unlocked',
+  elements: {
+    gate: document.getElementById('gate'),
+    input: document.getElementById('accessKey'),
+    btn: document.getElementById('accessBtn'),
+    err: document.getElementById('error'),
+    particles: document.getElementById('particles'),
+  },
+  init() {
+    if (localStorage.getItem(this.STORAGE_KEY) === '1') {
+      this.elements.gate.style.display = 'none';
+      App.init();
+      return;
+    }
+    
+    this.elements.btn.addEventListener('click', () => this.unlock());
+    this.elements.input.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') this.unlock();
+    });
+    this.initParticles();
+  },
+  unlock() {
+    const val = (this.elements.input.value || "").trim();
+    if (val === this.KEY) {
+      this.elements.err.textContent = "";
+      this.elements.input.removeAttribute('aria-invalid');
+      gsap.to(this.elements.gate, {
+        autoAlpha: 0,
+        duration: 0.6,
+        ease: 'power2.inOut',
+        onComplete: () => {
+          this.elements.gate.style.display = 'none';
+          localStorage.setItem(this.STORAGE_KEY, '1');
+          App.init();
+        }
+      });
+    } else {
+      this.elements.err.textContent = "Access Denied";
+      this.elements.input.setAttribute('aria-invalid', 'true');
+      this.elements.input.focus();
+      gsap.fromTo(this.elements.gate.querySelector('.gate-card'), { x: 0 }, { x: -10, duration: 0.05, yoyo: true, repeat: 5 });
+    }
+  },
+  initParticles() {
+    const c = this.elements.particles;
+    const ctx = c.getContext('2d');
+    let w, h, dpr;
+    const P = [];
+    const resize = () => {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = c.width = Math.floor(window.innerWidth * dpr);
+      h = c.height = Math.floor(window.innerHeight * dpr);
+      initP();
+    };
+    const rnd = (min, max) => Math.random() * (max - min) + min;
+    const initP = (count = 100) => {
+      P.length = 0;
+      for (let i = 0; i < count; i++) {
+        P.push({
+          x: rnd(0, w), y: rnd(0, h), r: rnd(1.2 * dpr, 2.8 * dpr),
+          vx: rnd(-0.12, 0.12), vy: rnd(-0.12, 0.12), a: rnd(0.25, 0.9)
+        });
+      }
+    };
+    let animationFrameId;
+    const step = () => {
+      ctx.clearRect(0, 0, w, h);
+      const g = ctx.createRadialGradient(w * 0.5, h * 0.45, 0, w * 0.5, h * 0.45, Math.max(w, h) * 0.65);
+      g.addColorStop(0, 'rgba(98,214,255,0.05)');
+      g.addColorStop(1, 'transparent');
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, w, h);
+
+      for (const p of P) {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0 || p.x > w) p.vx *= -1;
+        if (p.y < 0 || p.y > h) p.vy *= -1;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(98,214,255,${p.a})`;
+        ctx.fill();
+
+        for (const q of P) {
+          const dist = Math.hypot(p.x - q.x, p.y - q.y);
+          if (dist < 120 * dpr) {
+            ctx.strokeStyle = `rgba(155,107,255, ${0.035 * (1 - dist / (120 * dpr))})`;
+            ctx.lineWidth = .6 * dpr;
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y);
+            ctx.stroke();
+          }
+        }
+      }
+      animationFrameId = requestAnimationFrame(step);
+    };
+    window.addEventListener('resize', resize);
+    resize();
+    step();
+  }
+};
+
+/* ========================== App Logic ========================== */
+const App = {
+  state: {
+    currentKey: null,
+    currentIndex: -1,
+    currentVideoUrl: null,
+  },
+  elements: {
+    shell: document.querySelector('.app-shell'),
+    tabs: document.getElementById('tabs'),
+    list: document.getElementById('list'),
+    listTitle: document.getElementById('listTitle'),
+    playerArea: document.getElementById('playerArea'),
+    currentTitle: document.getElementById('currentTitle'),
+    notesBtn: document.getElementById('notesBtn'),
+    copyBtn: document.getElementById('copyBtn'),
+    notesSelect: document.getElementById('notesSelect'),
+    search: document.getElementById('search'),
+    logoutBtn: document.getElementById('logoutBtn')
+  },
+  init() {
+    this.revealApp();
+    this.buildTabs();
+    this.addEventListeners();
+    const firstKey = Object.keys(courseData)[0];
+    this.switchPlaylist(firstKey);
+  },
+  addEventListeners() {
+    this.elements.search.addEventListener('input', () => this.filterList());
+    this.elements.logoutBtn.addEventListener('click', () => {
+        localStorage.removeItem(Gate.STORAGE_KEY);
+        window.location.reload();
+    });
+    this.elements.copyBtn.addEventListener('click', () => this.copyVideoLink());
+  },
+  revealApp() {
+    this.elements.shell.style.visibility = 'visible';
+    const tl = gsap.timeline();
+    tl.from('header.app', { y: -20, autoAlpha: 0, duration: 0.5, ease: 'power2.out' })
+      .from('.grid', { y: 20, autoAlpha: 0, duration: 0.6, ease: 'power2.out' }, "-=0.3");
+  },
+  buildTabs() {
+    this.elements.tabs.innerHTML = '';
+    for (const key in courseData) {
+      const { title } = courseData[key];
+      const btn = document.createElement('button');
+      btn.className = 'tab';
+      btn.type = 'button';
+      btn.textContent = title;
+      btn.dataset.key = key;
+      btn.addEventListener('click', () => this.switchPlaylist(key));
+      this.elements.tabs.appendChild(btn);
+    }
+  },
+  switchPlaylist(key) {
+    if (this.state.currentKey === key) return;
+    this.state.currentKey = key;
+    this.state.currentIndex = -1;
+    this.elements.search.value = '';
+
+    this.elements.tabs.querySelectorAll('.tab').forEach(t => {
+      t.setAttribute('aria-current', t.dataset.key === key);
+    });
+
+    const info = courseData[key];
+    this.elements.listTitle.textContent = 'Search';
+    this.buildList();
+
+    const firstPlayable = info.videos.findIndex(v => v.videoId);
+    if (firstPlayable !== -1) {
+      this.playVideo(firstPlayable);
+    } else {
+      this.clearPlayer();
+    }
+  },
+  buildList() {
+    const { videos } = courseData[this.state.currentKey];
+    this.elements.list.innerHTML = '';
+    
+    videos.forEach((v, i) => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.setAttribute('role', 'listitem');
+      card.dataset.index = i;
+
+      const isPlayable = !!v.videoId;
+      if (isPlayable) {
+        card.addEventListener('click', () => this.playVideo(i));
+      } else {
+        card.style.opacity = .85;
+        card.style.cursor = 'default';
+      }
+
+      let tagsHTML = `<span class="tag">${v.duration || '—'}</span>`;
+      if (!isPlayable) {
+        tagsHTML += `<span class="tag soon">Coming soon</span>`;
+      }
+
+      card.innerHTML = `
+        <img class="thumb" src="${v.thumbnail}" alt="${v.title}" loading="lazy">
+        <div class="meta">
+          <h4>${v.title}</h4>
+          <div class="row">${tagsHTML}</div>
+        </div>
+      `;
+      this.elements.list.appendChild(card);
+    });
+
+    gsap.from(this.elements.list.querySelectorAll('.card'), {
+        autoAlpha: 0,
+        y: 15,
+        stagger: 0.04,
+        duration: 0.4,
+        ease: 'power2.out'
+    });
+    this.refreshActiveCard();
+  },
+  refreshActiveCard() {
+    this.elements.list.querySelectorAll('.card').forEach(c => {
+      const idx = Number(c.dataset.index);
+      const isActive = idx === this.state.currentIndex;
+      c.setAttribute('aria-current', isActive);
+      
+      if (isActive) {
+          c.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    });
+  },
+  playVideo(index) {
+    const v = courseData[this.state.currentKey].videos[index];
+    if (!v || !v.videoId || this.state.currentIndex === index) return;
+    this.state.currentIndex = index;
+    this.state.currentVideoUrl = `https://www.youtube.com/watch?v=${v.videoId}`;
+
+    this.elements.playerArea.innerHTML = `
+        <div class="play-facade" role="button" tabindex="0" aria-label="Play video: ${v.title}">
+            <div class="play-button">
+                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M7 6V18L18 12L7 6Z"></path></svg>
+            </div>
+        </div>`;
+    this.elements.playerArea.dataset.pendingVideoId = v.videoId;
+    this.elements.playerArea.addEventListener('click', this.initiatePlayer, { once: true });
+
+    this.elements.currentTitle.textContent = v.title;
+    this.elements.copyBtn.removeAttribute('disabled');
+    this.updateNotes(v.notes);
+    this.refreshActiveCard();
+  },
+  initiatePlayer() {
+    const videoId = App.elements.playerArea.dataset.pendingVideoId;
+    if (!videoId) return;
+
+    delete App.elements.playerArea.dataset.pendingVideoId;
+
+    const facade = App.elements.playerArea.querySelector('.play-facade');
+    const iframe = document.createElement('iframe');
+    
+    const params = new URLSearchParams({
+      autoplay: '1', rel: '0', modestbranding: '1', color: 'white', iv_load_policy: '3'
+    });
+    iframe.src = `https://www.youtube.com/embed/${encodeURIComponent(videoId)}?${params.toString()}`;
+    iframe.title = App.elements.currentTitle.textContent;
+    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+    iframe.referrerPolicy = "strict-origin-when-cross-origin";
+    iframe.allowFullscreen = true;
+    iframe.style.opacity = 0;
+    
+    App.elements.playerArea.appendChild(iframe);
+
+    const tl = gsap.timeline();
+    tl.to(facade, { autoAlpha: 0, duration: 0.4, ease: 'power2.inOut' })
+      .to(iframe, { autoAlpha: 1, duration: 0.4 }, "-=0.2")
+      .call(() => facade.remove());
+  },
+  updateNotes(notes = []) {
+    const hasNotes = notes.length > 0 && notes[0].pdfUrl && notes[0].pdfUrl !== '#';
+    if (!hasNotes) {
+      this.elements.notesBtn.setAttribute('disabled', 'true');
+      this.elements.notesBtn.href = '#';
+      this.elements.notesBtn.title = "Notes not available";
+      this.elements.notesSelect.style.display = 'none';
+    } else {
+      this.elements.notesBtn.removeAttribute('disabled');
+      this.elements.notesBtn.href = notes[0].pdfUrl;
+      this.elements.notesBtn.title = notes[0].title || 'Download Notes';
+      
+      if (notes.length > 1) {
+        this.elements.notesSelect.style.display = '';
+        this.elements.notesSelect.innerHTML = notes.map((n, idx) => 
+            `<option value="${idx}">${n.title || `Notes ${idx + 1}`}</option>`).join('');
+        
+        this.elements.notesSelect.onchange = (e) => {
+          const i = Number(e.target.value);
+          if (notes[i] && notes[i].pdfUrl && notes[i].pdfUrl !== '#') {
+            this.elements.notesBtn.href = notes[i].pdfUrl;
+            this.elements.notesBtn.title = notes[i].title || 'Download Notes';
+          }
+        };
+      } else {
+        this.elements.notesSelect.style.display = 'none';
+      }
+    }
+  },
+  clearPlayer() {
+    this.elements.playerArea.innerHTML = '<div class="placeholder">Select a lecture to begin</div>';
+    this.elements.currentTitle.textContent = 'No video selected';
+    this.elements.copyBtn.setAttribute('disabled', 'true');
+    this.state.currentVideoUrl = null;
+    this.updateNotes([]);
+  },
+  filterList() {
+    const q = this.elements.search.value.toLowerCase().trim();
+    const { videos } = courseData[this.state.currentKey];
+    this.elements.list.querySelectorAll('.card').forEach(card => {
+      const index = parseInt(card.dataset.index, 10);
+      const video = videos[index];
+      const match = video.title.toLowerCase().includes(q) || (video.duration || '').toLowerCase().includes(q);
+      card.style.display = match ? '' : 'none';
+    });
+  },
+  copyVideoLink() {
+    if (!this.state.currentVideoUrl) return;
+
+    const showFeedback = (isSuccess) => {
+        const btn = this.elements.copyBtn;
+        const textEl = btn.querySelector('.copy-text');
+        const originalText = 'Copy Link';
+
+        btn.classList.remove('copied', 'failed');
+        
+        if (isSuccess) {
+            textEl.textContent = 'Copied!';
+            btn.classList.add('copied');
+        } else {
+            textEl.textContent = 'Failed!';
+            btn.classList.add('failed');
+        }
+        setTimeout(() => {
+            textEl.textContent = originalText;
+            btn.classList.remove('copied', 'failed');
+        }, 2000);
+    };
+
+    if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(this.state.currentVideoUrl)
+            .then(() => showFeedback(true))
+            .catch(() => this.fallbackCopy(this.state.currentVideoUrl, showFeedback)); 
+        return;
+    }
+    
+    this.fallbackCopy(this.state.currentVideoUrl, showFeedback);
+  },
+
+  fallbackCopy(textToCopy, callback) {
+    const textArea = document.createElement('textarea');
+    textArea.value = textToCopy;
+    textArea.style.position = 'fixed';
+    textArea.style.top = '-9999px';
+    textArea.style.left = '-9999px';
+    textArea.setAttribute('readonly', '');
+
+    document.body.appendChild(textArea);
+    textArea.select();
+    textArea.setSelectionRange(0, textArea.value.length);
+
+    let success = false;
+    try {
+        success = document.execCommand('copy');
+    } catch (err) {
+        console.error('Void Architecture Error: Fallback copy command failed.', err);
+        success = false;
+    }
+
+    callback(success);
+    document.body.removeChild(textArea);
+  }
+};
+
+Gate.init();
+
+});
+</script>
+</body>
+</html>
 
